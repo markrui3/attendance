@@ -1,0 +1,16 @@
+{
+  "name": "attendance",
+  "description": "0.0.1",
+  "main": "index.html",
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "attendance"
+  ],
+  "authors": [
+    "Markrui"
+  ],
+  "license": "MIT",
+  "homepage": ""
+}
