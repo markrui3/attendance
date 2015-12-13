@@ -24,6 +24,28 @@ angular
 		        	}
 	          	}
 	        })
+			.state('statistic', {
+	        	url: '/statistic',
+        		views: {
+	          		'content': {
+	            		templateUrl: 'templates/statistic/statistic.html'
+	          		},
+	          		'dash': {
+		        		templateUrl: 'templates/dash.html'
+		        	}
+	          	}
+	        })
+			.state('self', {
+	        	url: '/self',
+        		views: {
+	          		'content': {
+	            		templateUrl: 'templates/self/self.html'
+	          		},
+	          		'dash': {
+		        		templateUrl: 'templates/dash.html'
+		        	}
+	          	}
+	        })
 	}]);
 
 
