@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="holiday" class="tju.att.domain.Holiday"></bean>
+	<bean id="holidayDao" class="tju.att.dao.HolidayDaoImpl"></bean>
+	<bean id="holidayManagerBase" class="tju.att.manager.HolidayManagerImpl">
+		<property name="holidayDao" ref="holidayDao"></property>
+	</bean>
+	<!-- 此处为代理 -->
+	<bean name="holidayManager" parent="transactionProxy">
+		<property name="target" ref="holidayManagerBase"></property>
+	</bean>
+	
+	<bean id="user" class="tju.att.domain.User"></bean>
+	<bean id="userDao" class="tju.att.dao.UserDaoImpl"></bean>
+	<bean id="userManagerBase" class="tju.att.manager.UserManagerImpl">
+		<property name="userDao" ref="userDao"></property>
+	</bean>
+	<!-- 此处为代理 -->
+	<bean name="userManager" parent="transactionProxy">
+		<property name="target" ref="userManagerBase"></property>
+	</bean>
+	
+	<bean id="checkDao" class="tju.att.dao.CheckDaoImpl"></bean>
+	<bean id="attendance" class="tju.att.domain.Attendance"></bean>
+	<bean id="attendanceDao" class="tju.att.dao.AttendanceDaoImpl"></bean>
+	<bean id="attendanceManagerBase" class="tju.att.manager.AttendanceManagerImpl">
+		<property name="attendanceDao" ref="attendanceDao"></property>
+		<property name="userDao" ref="userDao"></property>
+		<property name="checkDao" ref="checkDao"></property>
+	</bean>
+	<!-- 此处为代理 -->
+	<bean name="attendanceManager" parent="transactionProxy">
+		<property name="target" ref="attendanceManagerBase"></property>
+	</bean>
+	
+	<bean id="check" class="tju.att.domain.Check"></bean>
+	<bean id="checkManagerBase" class="tju.att.manager.CheckManagerImpl">
+		<property name="checkDao" ref="checkDao"></property>
+		<property name="attendanceDao" ref="attendanceDao"></property>
+	</bean>
+	<!-- 此处为代理 -->
+	<bean name="checkManager" parent="transactionProxy">
+		<property name="target" ref="checkManagerBase"></property>
+	</bean>
+	
+</beans>
