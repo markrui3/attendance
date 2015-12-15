@@ -2,14 +2,17 @@
 angular
 	.module('attendance', [
 	'ui.router'])
-	.config(['$stateProvider', '$httpProvider', function($stateProvider, $httpProvider){
+	.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', 
+	function($stateProvider, $urlRouterProvider, $httpProvider){
 		
+		$urlRouterProvider.otherwise('/homepage');
+
 		$stateProvider
 			.state('dash', {
 	        	url:'/dash',
 	        	views: {
 	          		'dash': {
-		        		templateUrl: 'templates/dash.html'
+		        		templateUrl: 'templates/dash.html',
 		        	}
 	          	}
 	    	})
@@ -31,7 +34,8 @@ angular
 	            		templateUrl: 'templates/statistic/statistic.html'
 	          		},
 	          		'dash': {
-		        		templateUrl: 'templates/dash.html'
+		        		templateUrl: 'templates/dash.html',
+		
 		        	}
 	          	}
 	        })
@@ -42,12 +46,14 @@ angular
 	            		templateUrl: 'templates/self/self.html'
 	          		},
 	          		'dash': {
-		        		templateUrl: 'templates/dash.html'
+		        		templateUrl: 'templates/dash.html',
+		        	
 		        	}
 	          	}
-	        })
+	       });
+	       
+	       
 	}]);
-
 
 ///**
 // * 演示程序当前的 “注册/登录” 等操作，是基于 “本地存储” 完成的
