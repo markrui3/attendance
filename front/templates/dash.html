@@ -32,7 +32,7 @@
 </nav>
 <script src="../js/mui.min.js"></script>
 <script type="text/javascript" charset="utf-8">
-	 //mui初始化
+	//mui初始化
 	mui.init({
 		statusBarBackground: '#f7f7f7',
 	});
@@ -62,7 +62,7 @@
 	//当前激活选项
 	var activeTab = subpages[0];
 	var title = document.getElementById("title");
-	 //选项卡点击事件
+	//选项卡点击事件
 	mui('.mui-bar-tab').on('tap', 'a', function(e) {
 		var targetTab = this.getAttribute('href');
 		if (targetTab == activeTab) {
@@ -116,6 +116,8 @@
 			openMenu();
 		}
 	});
+	
+	
 </script>
 </body>
 </html>

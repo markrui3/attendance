@@ -14,46 +14,86 @@
 
 </head>
 <body>
-	
-
-	<ul class="mui-table-view">
-	<li class="mui-table-view-divider">
-		<br>
-			<br>
-		<p align="center"><img src="../../favicon.ico" style="border-radius:50%"/></p>
-		<table width="100%">
-			<tr>
-				<td style="width:50%;text-align:center">
-					<button type="button" class="mui-btn mui-btn-primary mui-icon mui-icon-home">
-			            首页</button>
-				</td>
-				<td style="width:50%;text-align:center">
-					<button type="button" class="mui-btn mui-btn-primary mui-icon mui-icon-search">
-		            	搜索</button>
-				</td>
-			</tr>
-		</table>
-			
-			
-		</p>
+<style type="text/css">
+	.mui-table-view {
+		margin-bottom: 20px;
+	}
+</style>
+<ul class="mui-table-view mui-table-view-chevron">
+	<li class="mui-table-view-cell mui-media">
+		<a class="mui-navigate-right" href="#account">
+			<img class="mui-media-object mui-pull-left head-img" id="head-img" src="../../favicon.ico">
+			<div class="mui-media-body">
+				小明
+				<p class='mui-ellipsis'>账号:xiaoming</p>
+			</div>
+		</a>
 	</li>
-	</ul>
-<div class="mui-content">
-	<ul class="mui-table-view mui-grid-view mui-grid-9">
-        <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6"><a href="#">
-                <span class="mui-icon mui-icon-home"></span>
-                <div class="mui-media-body">Home</div></a></li>
-        <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6"><a href="#">
-                <span class="mui-icon mui-icon-email"><span class="mui-badge">5</span></span>
-                <div class="mui-media-body">Email</div></a></li>
-        <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6"><a href="#">
-                <span class="mui-icon mui-icon-chatbubble"></span>
-                <div class="mui-media-body">Chat</div></a></li>
-        <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6"><a href="#">
-                <span class="mui-icon mui-icon-location"></span>
-                <div class="mui-media-body">location</div></a>
-        </li>
-    </ul> 
-</div>
+</ul>
+<ul id="grid-href" class="mui-table-view mui-grid-view mui-grid-9" style="background-color: #fff;">
+    <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6"><a href="edit-attendance.html">
+            <span class="mui-icon mui-icon-compose"></span>
+            <div class="mui-media-body">新建请假</div></a></li>
+    <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6"><a href="#">
+        	<span class="mui-icon mui-icon-search"></span>
+        	<div class="mui-media-body">签到查询</div></a></li>
+    <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6"><a href="#">
+            <span class="mui-icon mui-icon-paperplane"></span>
+            <div class="mui-media-body">摇一摇</div></a></li>
+    <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6"><a href="#">
+            <span class="mui-icon mui-icon-email"></span>
+            <div class="mui-media-body">帮助与反馈</div></a>
+    </li>
+</ul>
+<br>
+<ul class="mui-table-view mui-table-view-chevron">
+	<li class="mui-table-view-cell">
+		<a href="#notifications" class="mui-navigate-right">我发起的</a>
+	</li>
+	<li class="mui-table-view-cell">
+		<a href="#privacy" class="mui-navigate-right">我处理的</a>
+	</li>
+</ul>
+<ul class="mui-table-view">
+	<li class="mui-table-view-cell" style="text-align: center;">
+		<a>退出登录</a>
+	</li>
+</ul>
+<script type="text/javascript">
+	mui.init({
+		statusBarBackground: '#f7f7f7',
+	});
+	mui('grid-href').on('tap', 'a', function(e) {
+		var targetTab = this.getAttribute('href');
+		console.log(targetTab);
+		
+		mui.openWindow({
+			url:targetTab,
+			id:targetTab,
+			createNew:true,
+			waiting:{
+				autoShow:false
+			}
+		});
+	});
+	
+	//首页返回键处理
+	//处理逻辑：1秒内，连续两次按返回键，则退出应用；
+	var first = null;
+	mui.back = function() {
+		//首次按键，提示‘再按一次退出应用’
+		if (!first) {
+			first = new Date().getTime();
+			mui.toast('再按一次退出应用');
+			setTimeout(function() {
+				first = null;
+			}, 1000);
+		} else {
+			if (new Date().getTime() - first < 1000) {
+				plus.runtime.quit();
+			}
+		}
+	};
+</script>
 </body>
 </html>
