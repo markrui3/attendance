@@ -19,14 +19,17 @@
 				background-color: white;
 				min-height: 600px;
 			}
-			.mui-control-content .mui-loading {
-				margin-top: 50px;
-			}
+
 		</style>
-<div class="mui-input-row mui-search">
-	<input type="search" class="mui-input-clear" placeholder="搜索" />
-</div>
+<header class="mui-bar mui-bar-nav">
+	<button class="mui-action-back mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>我的</button>
+	<h1 class="mui-title"></h1>
+</header>
 <div class="mui-content">
+	<div class="mui-input-row mui-search">
+		<input type="search" class="mui-input-clear" placeholder="搜索" />
+	</div>
+
 	<div id="slider" class="mui-slider">
 		<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 			<a class="mui-control-item" href="#item1mobile">
@@ -46,7 +49,7 @@
 					<div class="mui-scroll">
 						<ul class="mui-table-view">
 							<li class="mui-table-view-cell mui-media">
-								<a href="#" class="mui-navigate-right">
+								<a href="detail.html" class="mui-navigate-right">
 									<img class="mui-media-object mui-pull-left" src="http://dev.dcloud.net.cn/mui/assets/img/shuijiao.jpg">
 									<div class="mui-media-body">
 										幸福
@@ -55,14 +58,14 @@
 								</a>
 							</li>
 							<li class="mui-table-view-cell mui-media">
-								<a href="#">
+								<a href="#" class="mui-navigate-right">
 									<img class="mui-media-object mui-pull-left" src="http://dev.dcloud.net.cn/mui/assets/img/muwu.jpg">
 									<div class="mui-media-body">
 										木屋
 										<p class='mui-ellipsis'>想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖.</p>
 									</div>
 								</a>
-							</li>
+							</li> 
 							<li class="mui-table-view-cell mui-media">
 								<a href="#">
 									<img class="mui-media-object mui-pull-left" src="http://dev.dcloud.net.cn/mui/assets/img/cbd.jpg">
@@ -112,6 +115,11 @@
 <script>
 	mui.init({
 		swipeBack: false
+	});
+	mui.plusReady(function() {
+		var self = plus.webview.currentWebview();
+		var title = self.title;
+		mui('.mui-title')[0].innerHTML = title;
 	});
 	mui('.mui-table-view').on('tap', 'a', function(e) {
 		mui.openWindow({
