@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>考勤</title>
+    
+    <link rel="stylesheet" href="../../css/mui.min.css" />
+    <link rel="stylesheet" href="../../libs/components/bootstrap3/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../libs/components/bootstrap3/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="../../css/calendar.css">
+	<link rel="stylesheet" href="../../css/mui.picker.min.css" />
+	<script src="../../js/mui.min.js"></script>
+</head>
+<body>
+<header class="mui-bar mui-bar-nav">
+	<button class="mui-action-back mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>我的</button>
+	<h1 class="mui-title">签到查询</h1>
+</header>
+	<div class="mui-content">
+		<button id='datePicker' data-options='{"type":"month"}' class="btn mui-btn mui-btn-block"><h3 style="text-align: center;"></h3></button>
+		<div class="container">
+			<div id="calendar"></div>
+		</div>
+	</div>
+	<ul class="mui-table-view">
+		<br>
+		<span class="pull-left event event-success" style="margin-left:35%;margin-top:4px"></span>
+		<span>——成功签到</span>
+		<br>
+		<span class="pull-left event event-info" style="margin-left:35%;margin-top:4px"></span>
+		<span>——迟到|早退</span>
+		<br>
+		<span class="pull-left event event-warning" style="margin-left:35%;margin-top:4px"></span>
+		<span>——未签到</span>
+		<br>
+		<span>&nbsp;</span>
+	<ul>
+
+	<script type="text/javascript" src="../../libs/components/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../libs/components/underscore/underscore-min.js"></script>
+	<script type="text/javascript" src="../../libs/components/bootstrap3/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../libs/components/jstimezonedetect/jstz.min.js"></script>
+	<script type="text/javascript" src="../../js/language/zh-CN.js"></script>
+	<script type="text/javascript" src="../../js/calendar.js"></script>
+	<script type="text/javascript" src="../../js/mui.picker.min.js"></script>
+
+	<script type="text/javascript">
+			// 对Date的扩展，将 Date 转化为指定格式的String
+		// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符， 
+		// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) 
+		// 例子： 
+		// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423 
+		// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18 
+		Date.prototype.Format = function (fmt) {
+		    var o = {
+		        "M+": this.getMonth() + 1, //月份 
+		        "d+": this.getDate(), //日 
+		        "h+": this.getHours(), //小时 
+		        "m+": this.getMinutes(), //分 
+		        "s+": this.getSeconds(), //秒 
+		        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+		        "S": this.getMilliseconds() //毫秒 
+		    };
+		    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+		    for (var k in o)
+		    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+		    return fmt;
+		};
+		
+		(function($) {
+			mui.init();
+			"use strict";
+			var options = {
+				events_source: 'events.json.php',
+				view: 'month',
+				tmpl_path: 'tmpls/',
+				tmpl_cache: false,
+				day: new Date().Format('yyyy-MM-dd'),
+				language:'zh-CN',
+				first_day:'1',
+				weekbox:'false',
+				onAfterEventsLoad: function(events) {
+					if(!events) {
+						return;
+					}
+					var list = $('#eventlist');
+					list.html('');
+		
+					$.each(events, function(key, val) {
+						$(document.createElement('li'))
+							.html('<a href="' + val.url + '">' + val.title + '</a>')
+							.appendTo(list);
+					});
+				},
+				onAfterViewLoad: function(view) {
+					$('.mui-content h3').text(this.getTitle());
+					$('.btn-group button').removeClass('active');
+					$('button[data-calendar-view="' + view + '"]').addClass('active');
+				},
+				classes: {
+					months: {
+						general: 'label'
+					}
+				}
+			};
+		
+			var calendar = $('#calendar').calendar(options);//日历配置
+			
+			document.getElementById("datePicker").addEventListener('tap', function() {
+				var optionsJson = this.getAttribute('data-options') || '{}';
+				var options = JSON.parse(optionsJson);
+				var id = this.getAttribute('id');
+				/*
+				 * 首次显示时实例化组件
+				 * 示例为了简洁，将 options 放在了按钮的 dom 上
+				 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+				 */
+				var picker = new mui.DtPicker(options);
+				picker.show(function(rs) {
+					/*
+					 * rs.value 拼合后的 value
+					 * rs.text 拼合后的 text
+					 * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+					 * rs.m 月，用法同年
+					 * rs.d 日，用法同年
+					 * rs.h 时，用法同年
+					 * rs.i 分（minutes 的第二个字母），用法同年
+					 */
+					var getDate = new Date(rs.text);
+					$('.mui-content h3').text(getDate.getFullYear()+" 年 "+getDate.getMonth()+" 月");
+					
+					//获取当月的签到数据
+					calendar.setOptions({day: getDate.Format('yyyy-MM-dd')});
+					calendar.view();
+					/* 
+					 * 返回 false 可以阻止选择框的关闭
+					 * return false;
+					 */
+					/*
+					 * 释放组件资源，释放后将将不能再操作组件
+					 * 通常情况下，不需要示放组件，new DtPicker(options) 后，可以一直使用。
+					 * 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
+					 * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
+					 */
+					picker.dispose();
+				});
+			}, false);
+			
+		}(jQuery));
+		
+	</script>
+</body>
+</html>
