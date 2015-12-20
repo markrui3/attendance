@@ -11,35 +11,30 @@
     <link href="../../css/style.css" rel="stylesheet"/>
     <link href="../../css/iconfont.css" rel="stylesheet"/>
     <script src="../../js/mui.min.js"></script>
-
+    <script src="../../libs/bower_components/angular/angular.min.js"></script>
+    <script src="../../libs/bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="../../js/app.js"></script>
 </head>
-<body>
+<body ng-app="attendance" ng-controller="ctrl_homepage">
 
 	<ul class="mui-table-view">
 		<li class="mui-table-view-divider">
-			<p>欢迎您，Mark</p>
-			<p>今天是{{dateday}}</p>
+			<h3>欢迎您，{{username}}</h3>
+			<p>今天是  {{today}}</p>
 		</li>
 		<li class="mui-table-view-cell">
-			<div style="background:url('http://dev.dcloud.net.cn/mui/assets/img/yuantiao.jpg') no-repeat;width:100%">
-				温度：
-				<br> PM2.5：
-				<br>
-				<br/>
-				<br/>
-				<br/>
-				<br/>
-				<br/>
-				<br/>
-				<br/>
-				<br/>
-				<br/>
-				<br/>
+			<div style="position:relative;">
+				<img src="../../images/yuantiao.jpg" style="width:100%" />
+				<div style="position:absolute;z-indent:2;left:20px;top:10px;">
+				<h3>{{temperature}}</h3>
+				<h4>pm2.5: {{pm25}}</h4>
+				</div>
+				<p>穿衣指数：{{des}}</p>
 			</div>
 		</li>
 		<li class="mui-table-view-cell">
 			<h5>上班时间</h5>
-			<p><span style="font-size:20px">08:00</span> <span style="position:absolute;top:35%;font-size:30px;padding-left:50px;">准时签到</span></p>
+			<p><span style="font-size:20px">08:00</span> <span style="position:absolute;top:35%;font-size:30px;padding-left:50px;">还未签到</span></p>
 			<button class="mui-btn mui-btn-primary">签到</button>
 		</li>
 		<li class="mui-table-view-cell">

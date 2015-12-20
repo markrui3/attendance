@@ -914,7 +914,10 @@ if(!String.prototype.formatNum) {
 							async: false
 						}).done(function(json) {
 							if(!json.success) {
-								$.error(json.error);
+								mui.alert('签到查询发生错误，客观别着急~', '签到查询', function() {
+									
+								});
+								//$.error(json.error);
 							}
 							if(json.result) {
 								events = json.result;
@@ -1166,15 +1169,39 @@ if(!String.prototype.formatNum) {
 
 	Calendar.prototype.getEventsBetween = function(start, end) {
 		var events = [];
-		$.each(this.options.events, function() {
-			if(this.start == null) {
-				return true;
+		
+		//判断start和end是否在所查日子的月份里
+		var year = new Date(this.options.day).getFullYear();
+		var month = new Date(this.options.day).getMonth();
+		var firstDate = new Date(year,month,1);//取后一年当月中的第一天
+		month++;
+		if(month>12)      //如果当前大于12月，则年份转到下一年   
+		{   
+			month -= 12;    //月份减   
+			year++;      //年份增   
+		}
+		var lastDate = new Date(year,month,1);//取后一年当月中的第一天
+		if(start >= parseInt(firstDate.getTime()) && end <= parseInt(lastDate.getTime())){
+			$.each(this.options.events, function() {
+	//			if(this.start == null) {
+	//				return true;
+	//			}
+	//			var event_end = this.end || this.start;
+	//			if((parseInt(this.start) < end) && (parseInt(event_end) >= start)) {
+	//				events.push(this);
+	//			}
+	
+				//如果发生时间在传进来的start和end之间，则加入到events中
+				if(parseInt(new Date(this.time).getTime()) > start && parseInt(new Date(this.time).getTime()) < end){
+					events.push(this);
+				}
+			});
+			//只对当天之前的数据模拟
+			if(parseInt(new Date().getTime()) >= end && events.length == 0){
+				events.push({"id": "0","time":start + 1000,"come": "0","leave": "0"});
 			}
-			var event_end = this.end || this.start;
-			if((parseInt(this.start) < end) && (parseInt(event_end) >= start)) {
-				events.push(this);
-			}
-		});
+		}
+		
 		return events;
 	};
 

@@ -82,22 +82,12 @@
 			<form id='login-form' class="mui-input-group">
 				<div class="mui-input-row">
 					<label>账号</label>
-					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+					<input id='phone' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
 				</div>
 				<div class="mui-input-row">
 					<label>密码</label>
-					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+					<input id='pwd' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
 				</div>
-			</form>
-			<form class="mui-input-group">
-				<ul class="mui-table-view mui-table-view-chevron">
-					<li class="mui-table-view-cell">
-						自动登录
-						<div id="autoLogin" class="mui-switch">
-							<div class="mui-switch-handle"></div>
-						</div>
-					</li>
-				</ul>
 			</form>
 			<div class="mui-content-padded">
 				<button id='login' class="mui-btn mui-btn-block mui-btn-primary">登录</button>
@@ -109,7 +99,80 @@
 			</div>
 		</div>
 		<script type="text/javascript">
-			mui.init();
+			var storage = window.localStorage;
+			var root = storage.getItem('root');
+			mui.init({
+				statusBarBackground: '#f7f7f7',
+			});
+			document.getElementById('login').addEventListener('tap', function() {
+				if(document.getElementById('phone').value == ''){
+					mui.toast('请输入用户名');
+					return;
+				}
+				if(document.getElementById('pwd').value == ''){
+					mui.toast('请输入密码');
+					return;
+				}
+				mui.ajax(root+'/attendance/user/login/'+document.getElementById('phone').value+'/'+document.getElementById('pwd').value, {
+					dataType:'json',//服务器返回json格式数据
+					type:'get',//HTTP请求类型
+					timeout:5000,//超时时间设置为10秒；
+					success:function(data){
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+						if(data.status == 'OK'){
+							storage.setItem('id', data.user.id);
+							storage.setItem('name', data.user.name);
+							storage.setItem('position', data.user.position);
+							storage.setItem('birthday', data.user.birthday);
+							storage.setItem('startworkdate', data.user.startworkdate);
+							storage.setItem('department', data.user.department);
+							storage.setItem('gender', data.user.gender);
+							storage.setItem('pwd', data.user.pwd);
+							storage.setItem('phone', data.user.phone);
+							mui.plusReady(function() {
+								if(window.localStorage.getItem('id') == null){
+									mui.openWindow({
+										url:'login.html',
+										id:'login.html',
+										createNew:false,
+									});
+								}else{
+									//延迟的原因：优先打开启动导航页面，避免资源争夺
+									setTimeout(function () {
+										//预加载
+										preload();
+									},200);
+									
+									mui.openWindow({
+										url:'dash.html',
+										id:'dash.html',
+										createNew:false,
+									});
+									mui.toast('登录成功');
+								}
+							});
+						}else{
+							mui.toast('用户名或密码错误');
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(xhr,type,errorThrown);
+						mui.toast('网络异常');
+					}
+				});
+			});
+			//初始化，并预加载webview模式的选项卡			
+			function preload () {
+				mui.preload({
+					id:'dash',
+					url:'templates/dash.html',
+					styles: {
+						popGesture: 'hide'
+					}
+				});
+			}
+	
 			document.getElementById('reg').addEventListener('tap', function() {
 				mui.openWindow({
 				    url:'reg.html',

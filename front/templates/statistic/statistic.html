@@ -11,23 +11,90 @@
     <link href="../../css/style.css" rel="stylesheet"/>
     <link href="../../css/iconfont.css" rel="stylesheet"/>
     <script src="../../js/mui.min.js"></script>
-
+	<script src="../../js/mui.pullToRefresh.js"></script>
+	<script src="../../js/mui.pullToRefresh.material.js"></script>
 </head>
 <body>
 	<style>
-			.mui-control-content {
-				background-color: white;
-				min-height: 600px;
-			}
-			.mui-control-content .mui-loading {
-				margin-top: 50px;
-			}
-		</style>
+		html,
+		body {
+			background-color: #efeff4;
+		}
+		.mui-bar~.mui-content .mui-fullscreen {
+			top: 44px;
+			height: auto;
+		}
+		.mui-pull-top-tips {
+			position: absolute;
+			top: -20px;
+			left: 50%;
+			margin-left: -25px;
+			width: 40px;
+			height: 40px;
+			border-radius: 100%;
+		}
+		.mui-bar~.mui-pull-top-tips {
+			top: 24px;
+		}
+		.mui-pull-top-wrapper {
+			width: 42px;
+			height: 42px;
+			display: block;
+			text-align: center;
+			background-color: #efeff4;
+			border: 1px solid #ddd;
+			border-radius: 25px;
+			background-clip: padding-box;
+			box-shadow: 0 4px 10px #bbb;
+			overflow: hidden;
+		}
+		.mui-pull-top-tips.mui-transitioning {
+			-webkit-transition-duration: 200ms;
+			transition-duration: 200ms;
+		}
+		.mui-pull-top-tips .mui-pull-loading {
+			/*-webkit-backface-visibility: hidden;
+			-webkit-transition-duration: 400ms;
+			transition-duration: 400ms;*/
+			
+			margin: 0;
+		}
+		.mui-pull-top-wrapper .mui-icon,
+		.mui-pull-top-wrapper .mui-spinner {
+			margin-top: 7px;
+		}
+		.mui-pull-top-wrapper .mui-icon.mui-reverse {
+			/*-webkit-transform: rotate(180deg) translateZ(0);*/
+		}
+		.mui-pull-bottom-tips {
+			text-align: center;
+			background-color: #efeff4;
+			font-size: 15px;
+			line-height: 40px;
+			color: #777;
+		}
+		.mui-pull-top-canvas {
+			overflow: hidden;
+			background-color: #fafafa;
+			border-radius: 40px;
+			box-shadow: 0 4px 10px #bbb;
+			width: 40px;
+			height: 40px;
+			margin: 0 auto;
+		}
+		.mui-pull-top-canvas canvas {
+			width: 40px;
+		}
+		.mui-slider-indicator.mui-segmented-control {
+			background-color: #efeff4;
+		}
+	</style>
+<!--
 <div class="mui-input-row mui-search">
 	<input type="search" class="mui-input-clear" placeholder="搜索" />
-</div>
+</div>-->
 <div class="mui-content">
-	<div id="slider" class="mui-slider">
+	<div id="slider" class="mui-slider mui-fullscreen">
 		<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 			<a class="mui-control-item" href="#item1mobile">
 				待审核
@@ -122,36 +189,53 @@
 		    }
 		});
 	});
+	mui.init();
 	(function($) {
+		//阻尼系数
+		var deceleration = mui.os.ios?0.003:0.0009;
 		$('.mui-scroll-wrapper').scroll({
-			indicators: true //是否显示滚动条
+			bounce: false,
+			indicators: true, //是否显示滚动条
+			deceleration:deceleration
 		});
-		var html2 = '<ul class="mui-table-view"><li class="mui-table-view-cell">第二个选项卡子项-1</li><li class="mui-table-view-cell">第二个选项卡子项-2</li><li class="mui-table-view-cell">第二个选项卡子项-3</li><li class="mui-table-view-cell">第二个选项卡子项-4</li><li class="mui-table-view-cell">第二个选项卡子项-5</li></ul>';
-		var html3 = '<ul class="mui-table-view"><li class="mui-table-view-cell">第三个选项卡子项-1</li><li class="mui-table-view-cell">第三个选项卡子项-2</li><li class="mui-table-view-cell">第三个选项卡子项-3</li><li class="mui-table-view-cell">第三个选项卡子项-4</li><li class="mui-table-view-cell">第三个选项卡子项-5</li></ul>';
-		var item2 = document.getElementById('item2mobile');
-		var item3 = document.getElementById('item3mobile');
-		document.getElementById('slider').addEventListener('slide', function(e) {
-			if (e.detail.slideNumber === 1) {
-				if (item2.querySelector('.mui-loading')) {
-					setTimeout(function() {
-						item2.querySelector('.mui-scroll').innerHTML = html2;
-					}, 500);
+		$.ready(function() {
+			//循环初始化所有下拉刷新，上拉加载。
+			$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+				$(pullRefreshEl).pullToRefresh({
+					down: {
+						callback: function() {
+							var self = this;
+							setTimeout(function() {
+								var ul = self.element.querySelector('.mui-table-view');
+								ul.insertBefore(createFragment(ul, index, 10, true), ul.firstChild);
+								self.endPullDownToRefresh();
+							}, 5000);
+						}
+					},
+					up: {
+						callback: function() {
+							var self = this;
+							setTimeout(function() {
+								var ul = self.element.querySelector('.mui-table-view');
+								ul.appendChild(createFragment(ul, index, 5));
+								self.endPullUpToRefresh();
+							}, 1000);
+						}
+					}
+				});
+			});
+			var createFragment = function(ul, index, count, reverse) {
+				var length = ul.querySelectorAll('li').length;
+				var fragment = document.createDocumentFragment();
+				var li;
+				for (var i = 0; i < count; i++) {
+					li = document.createElement('li');
+					li.className = 'mui-table-view-cell mui-media';
+					li.innerHTML = '第' + (index + 1) + '个选项卡子项-' + (length + (reverse ? (count - i) : (i + 1)));
+					fragment.appendChild(li);
 				}
-			} else if (e.detail.slideNumber === 2) {
-				if (item3.querySelector('.mui-loading')) {
-					setTimeout(function() {
-						item3.querySelector('.mui-scroll').innerHTML = html3;
-					}, 500);
-				}
-			}
-		});
-		var sliderSegmentedControl = document.getElementById('sliderSegmentedControl');
-		$('.mui-input-group').on('change', 'input', function() {
-			if (this.checked) {
-				sliderSegmentedControl.className = 'mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-' + this.value;
-				//force repaint
-				sliderProgressBar.setAttribute('style', sliderProgressBar.getAttribute('style'));
-			}
+				return fragment;
+			};
 		});
 	})(mui);
 </script>

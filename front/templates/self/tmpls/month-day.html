@@ -4,7 +4,10 @@
 		<div class="events-list" data-cal-start="<%= start %>" data-cal-end="<%= end %>">
 			<% _.each(events, function(event) { %>
 				<a href="<%= event.url ? event.url : 'javascript:void(0)' %>" data-event-id="<%= event.id %>" data-event-class="<%= event['class'] %>"
-					class="pull-left event <%= event['class'] %>" data-toggle="tooltip"
+					class="pull-left event <%= event['come']=='0'?'event-warning':(event['come']=='1'?'event-info':'event-success') %>" data-toggle="tooltip"
+					title="<%= event.title %>"></a>
+				<a href="<%= event.url ? event.url : 'javascript:void(0)' %>" data-event-id="<%= event.id %>" data-event-class="<%= event['class'] %>"
+					class="pull-left event <%= event['leave']=='0'?'event-warning':(event['leave']=='1'?'event-info':'event-success') %>" data-toggle="tooltip"
 					title="<%= event.title %>"></a>
 			<% }); %>
 		</div>

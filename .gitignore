@@ -3,3 +3,6 @@
 document/考勤系统需求规格说明书.doc
 document/测试设计报告（修正版）.doc
 document/考勤系统需求规格说明书.pdf
+*.war
+*.xml
+*.xml

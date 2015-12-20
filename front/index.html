@@ -11,15 +11,12 @@
     <link href="css/style.css" rel="stylesheet"/>
     <link href="css/iconfont.css" rel="stylesheet"/>
     <script src="js/mui.min.js"></script>
-    
-    <script src="libs/bower_components/angular/angular.min.js"></script>
-    <script src="libs/bower_components/bower_components/angular-resource/angular-resource.min.js"></script>
-    <script src="libs/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-
 </head>
 <body>
 <script>
 	mui.init();
+	window.localStorage.setItem('root', "http://192.168.191.1:8080");
+	
 	//初始化，并预加载webview模式的选项卡			
 	function preload () {
 		mui.preload({
@@ -50,17 +47,25 @@
 	};
 	
 	mui.plusReady(function() {
-		//延迟的原因：优先打开启动导航页面，避免资源争夺
-		setTimeout(function () {
-			//预加载
-			preload();
-		},200);
-		
-		mui.openWindow({
-			url:'templates/dash.html',
-			id:'dash',
-			createNew:false,
-		});
+		if(window.localStorage.getItem('id') == null){
+			mui.openWindow({
+				url:'templates/login.html',
+				id:'login.html',
+				createNew:false,
+			});
+		}else{
+			//延迟的原因：优先打开启动导航页面，避免资源争夺
+			setTimeout(function () {
+				//预加载
+				preload();
+			},200);
+			
+			mui.openWindow({
+				url:'templates/dash.html',
+				id:'dash.html',
+				createNew:false,
+			});
+		}
 	});
 </script>
 </body>
