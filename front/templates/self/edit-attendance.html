@@ -39,10 +39,10 @@
 <div class="mui-content">
 	<ul class="mui-table-view mui-table-view-chevron" >
 		<li class="mui-table-view-cell mui-media">
-			<img class="mui-media-object mui-pull-left head-img" id="head-img" src="../../favicon.ico">
+			<img class="mui-media-object mui-pull-left head-img" id="head-img" src="../../images/user-photo.png">
 			<div class="mui-media-body">
-				小明
-				<p class='mui-ellipsis'>账号:xiaoming</p>
+				<span id="name">小明</span>
+				<p class='mui-ellipsis' id="phone">账号:</p>
 			</div>
 		</li>
 	</ul>
@@ -77,6 +77,8 @@
 			var typePicker = new $.PopPicker();
 			var storage = window.localStorage;
 			var root = storage.getItem("root");
+			document.getElementById('name').innerHTML = storage.getItem("name");
+			document.getElementById('phone').innerHTML = "账号:"+storage.getItem("phone");
 			mui.ajax(root+"attendance/holiday/getOneHoli/", {
 				dataType:'json',//服务器返回json格式数据
 				type:'post',//HTTP请求类型

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>考勤</title>
+    
+    <link href="../../css/mui.min.css" rel="stylesheet"/>
+    <link href="../../css/style.css" rel="stylesheet"/>
+    <link href="../../css/iconfont.css" rel="stylesheet"/>
+    <script src="../../js/mui.min.js"></script>
+    <script src="../../libs/bower_components/angular/angular.min.js"></script>
+    <script src="../../libs/bower_components/angular-resource/angular-resource.min.js"></script>
+	<script src="../../js/app.js"></script>
+</head>
+<body ng-app="attendance" ng-controller="ctrl_setting">
+<style type="text/css">
+	.mui-table-view {
+		margin-bottom: 20px;
+	}
+	.fixed-word{
+		float: left;
+		margin-left: 20px;
+	}
+	.ajax-word{
+		margin-right: 5px;
+		float: right;
+		color: #737373;
+	}
+</style>
+<header class="mui-bar mui-bar-nav">
+	<button class="mui-action-back mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>我的</button>
+	<h1 class="mui-title">个人主页</h1>
+</header>
+<div id="grid-href" class="mui-content">
+<ul class="mui-table-view mui-table-view-chevron">
+	<li class="mui-table-view-cell mui-media">
+		<a class="" href="setting.html" content="个人主页">
+			<img class="mui-media-object mui-pull-left head-img" id="head-img" src="../../images/user-photo.png">
+			<div class="mui-media-body">
+				<span ng-model="name">{{name}}</span>
+				<p class='mui-ellipsis'>{{phone}}</p>
+			</div>
+		</a>
+	</li>
+</ul>
+<ul class="mui-table-view mui-table-view-chevron" >
+	<li class="mui-table-view-cell mui-media" id="enddayPicker">
+		<span class="fixed-word">邮箱</span><span id="email" class="ajax-word">{{email}}</span>
+	</li>
+	<li class="mui-table-view-cell mui-media" id="typePicker">
+		<span class="fixed-word">性别</span><span id="gender" class="ajax-word">{{gender}}</span>
+	</li>
+	<li class="mui-table-view-cell mui-media" id="startdayPicker">
+		<span class="fixed-word">工作日期</span><span id="startworkdate" class="ajax-word">{{startworkdate}}</span>
+	</li>
+	<li class="mui-table-view-cell mui-media" id="enddayPicker">
+		<span class="fixed-word">生日</span><span id="birthday" class="ajax-word">{{birthday}}</span>
+	</li>
+	<li class="mui-table-view-cell mui-media" id="enddayPicker">
+		<span class="fixed-word">部门</span><span id="department" class="ajax-word">{{department}}</span>
+	</li>
+	<li class="mui-table-view-cell mui-media" id="enddayPicker">
+		<span class="fixed-word">职位</span><span id="position" class="ajax-word">{{position}}</span>
+	</li>
+</ul>
+</div>
+<script type="text/javascript">
+	
+</script>
+</body>
+</html>
