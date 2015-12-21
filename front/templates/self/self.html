@@ -22,7 +22,7 @@
 <ul class="mui-table-view mui-table-view-chevron">
 	<li class="mui-table-view-cell mui-media">
 		<a class="mui-navigate-right" href="#account">
-			<img class="mui-media-object mui-pull-left head-img" id="head-img" src="../../favicon.ico">
+			<img class="mui-media-object mui-pull-left head-img" id="head-img" src="../../images/user-photo.png">
 			<div class="mui-media-body">
 				小明
 				<p class='mui-ellipsis'>账号:xiaoming</p>
@@ -38,7 +38,7 @@
     <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6"><a href="sign.html" content="签到查询">
         	<span class="mui-icon mui-icon-search"></span>
         	<div class="mui-media-body">签到查询</div></a></li>
-    <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6"><a href="#" content="摇一摇">
+    <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6"><a href="chat.html" content="摇一摇">
             <span class="mui-icon mui-icon-paperplane"></span>
             <div class="mui-media-body">摇一摇</div></a></li>
     <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6"><a href="feedback.html" content="帮助与反馈">
@@ -51,7 +51,7 @@
 	<li class="mui-table-view-cell">
 		<a href="../statistic/statistic-self.html" class="mui-navigate-right" content="我发起的">我发起的</a>
 	</li>
-	<li class="mui-table-view-cell">
+	<li class="mui-table-view-cell not-worker">
 		<a href="../statistic/statistic-self.html" class="mui-navigate-right" content="我处理的">我处理的</a>
 	</li>
 </ul>
@@ -62,6 +62,16 @@
 	</li>
 </ul>
 <script type="text/javascript">
+	var list = document.querySelectorAll('.not-worker');
+	var storage = window.localStorage;
+
+	if (storage.getItem("position") == "0" && list) {
+
+		for (var i = 0; i < list.length; i++) {
+			list[i].style.display = 'none';
+		}
+	}
+	
 	mui('#grid-href').on('tap', 'a', function(e) {
 		mui('#dash').each(function(){
 			this.style.display = 'none';
@@ -79,6 +89,7 @@
 	});
 	
 	document.getElementById('quit').addEventListener('tap', function() {
+		storage.clear();
 		mui.openWindow({
 		    url:'../login.html',
 		    id:'login.html'

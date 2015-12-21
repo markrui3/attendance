@@ -14,9 +14,14 @@
 </head>
 <body>
 <script>
+	//模拟登陆状态，实际使用删除
+	window.localStorage.setItem('id', "1");
+	window.localStorage.setItem('name', "马云");
+	window.localStorage.setItem('phone', "18722530981");
+	
 	mui.init();
 	window.localStorage.setItem('root', "http://192.168.191.1:8080");
-	
+
 	//初始化，并预加载webview模式的选项卡			
 	function preload () {
 		mui.preload({

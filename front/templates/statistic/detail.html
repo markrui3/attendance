@@ -49,6 +49,9 @@
 		<span class="fixed-word">请假类型</span><span id="type" class="ajax-word">病假</span>
 	</li>
 	<li class="mui-table-view-cell mui-media">
+		<span class="fixed-word">申请日期</span><span id="applyday" class="ajax-word">2015-12-12</span>
+	</li>
+	<li class="mui-table-view-cell mui-media">
 		<span class="fixed-word">开始日期</span><span id="startday" class="ajax-word">2015-12-17</span>
 	</li>
 	<li class="mui-table-view-cell mui-media">
@@ -107,7 +110,50 @@
 	
 
 <script type="text/javascript">
+mui.plusReady(function() {
+	var self = plus.webview.currentWebview();
+	var attendanceid = self.attendanceid;
+	var storage = window.localStorage;
+	var root = storage.getItem('root');
+	mui.ajax(root+"../../js/data/", {
+		dataType:'json',//服务器返回json格式数据
+		type:'get',//HTTP请求类型
+		timeout:5000,//超时时间设置为10秒；
+		success:function(data){
+			//服务器返回响应，根据响应结果，分析是否登录成功；
+			if(data.status == 'OK'){
+				var html = '<ul class="mui-table-view">';
+				for(var i = 0; i < data.attendances.length; i++){
+					html += '<li class="mui-table-view-cell mui-media">'+
+						'<a class="mui-navigate-right" data-needcheck="1" data-attendanceid="'+data.attendances[i].id+'">'+
+							'<img class="mui-media-object mui-pull-left" src="../../images/user-photo.png">'+
+							'<div class="mui-media-body">'+data.attendances[i].username+
+								'<p class="mui-ellipsis">'+data.attendances[i].reason+'</p><p class="mui-ellipsis">'+
+								data.attendances[i].startday.substr(0, 10)+'~'+data.attendances[i].endday.substr(0, 10)+'</p></div></a></li>';
+				}
+				html += '</ul>';
+				document.getElementById(itemid).querySelector('.mui-scroll').innerHTML = html;
+				
+				mui('.mui-table-view').on('tap', 'a', function(e) {
+					mui.openWindow({
+					    url:'detail.html',
+					    id:'detail.html',
+					    extras:{
+					        attendanceid:this.dataset.attendanceid
+					    }
+					});
+				});
+			}else{
+				mui.toast('获取失败');
+			}
+		},
+		error:function(xhr,type,errorThrown){
+			//异常处理；
+			mui.toast('网络异常');
+		}
+	});
 
+});
 	
 </script>
 </body>

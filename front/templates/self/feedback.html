@@ -14,7 +14,7 @@
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left">
 				<span class="mui-icon mui-icon-left-nav"></span>我的</a>
-			<a class="mui-btn mui-btn-blue mui-btn-link mui-pull-right">提交</a>
+			<a id="submit" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right">提交</a>
 			<h1 class="mui-title">意见反馈</h1>
 		</header>
 		<div class="mui-content">
@@ -27,5 +27,11 @@
 				<input id='contact' type="text" class="mui-input-clear  contact" placeholder="(选填,方便我们联系你 )" />
 			</div>
 		</div>
+		<script type="text/javascript">
+			document.getElementById("submit").addEventListener("tap", function(){
+				mui.toast("反馈成功");
+				mui.back();
+			});
+		</script>
 	</body>
 </html>

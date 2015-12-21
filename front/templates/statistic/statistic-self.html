@@ -14,23 +14,25 @@
 
 </head>
 <body>
-	<style>
-			.mui-control-content {
-				background-color: white;
-				min-height: 600px;
-			}
-
-		</style>
 <header class="mui-bar mui-bar-nav">
 	<button class="mui-action-back mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>我的</button>
 	<h1 class="mui-title"></h1>
 </header>
+<style>
+	.mui-bar~.mui-content .mui-fullscreen {
+		top: 44px;
+		height: auto;
+	}
+	.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+	    top: 0px;
+	}
+</style>
+<!--
+<div class="mui-input-row mui-search">
+	<input type="search" class="mui-input-clear" placeholder="搜索" />
+</div>-->
 <div class="mui-content">
-	<div class="mui-input-row mui-search">
-		<input type="search" class="mui-input-clear" placeholder="搜索" />
-	</div>
-
-	<div id="slider" class="mui-slider">
+	<div id="slider" class="mui-slider mui-fullscreen">
 		<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 			<a class="mui-control-item" href="#item1mobile">
 				待审核
@@ -47,45 +49,11 @@
 			<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
 				<div id="scroll1" class="mui-scroll-wrapper">
 					<div class="mui-scroll">
-						<ul class="mui-table-view">
-							<li class="mui-table-view-cell mui-media">
-								<a href="detail.html" class="mui-navigate-right" data-ischeck="0">
-									<img class="mui-media-object mui-pull-left" src="http://dev.dcloud.net.cn/mui/assets/img/shuijiao.jpg">
-									<div class="mui-media-body">
-										幸福
-										<p class='mui-ellipsis'>能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
-									</div>
-								</a>
-							</li>
-							<li class="mui-table-view-cell mui-media">
-								<a href="#" class="mui-navigate-right" data-ischeck="1">
-									<img class="mui-media-object mui-pull-left" src="http://dev.dcloud.net.cn/mui/assets/img/muwu.jpg">
-									<div class="mui-media-body">
-										木屋
-										<p class='mui-ellipsis'>想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖.</p>
-									</div>
-								</a>
-							</li> 
-							<li class="mui-table-view-cell mui-media">
-								<a href="#">
-									<img class="mui-media-object mui-pull-left" src="http://dev.dcloud.net.cn/mui/assets/img/cbd.jpg">
-									<div class="mui-media-body">
-										CBD
-										<p class='mui-ellipsis'>烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>
-									</div>
-								</a>
-							</li>
-							<li class="mui-table-view-cell mui-media">
-								<a href="#">
-									<img class="mui-media-object mui-pull-left" src="http://dev.dcloud.net.cn/mui/assets/img/yuantiao.jpg">
-									<div class="mui-media-body">
-										远眺
-										<p class='mui-ellipsis'>静静的看这个世界，最后终于疯了</p>
-									</div>
-								</a>
-							</li>
-						</ul>
-
+						<div class="mui-loading">
+							<div class="mui-spinner">
+						
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -113,9 +81,6 @@
 	</div>
 </div>
 <script>
-	mui.init({
-		swipeBack: false
-	});
 	mui.plusReady(function() {
 		var self = plus.webview.currentWebview();
 		var title = self.title;
@@ -123,56 +88,100 @@
 	});
 	
 	var storage = window.localStorage;
-	mui('.mui-table-view').on('tap', 'a', function(e) {
-		if(this.dataset.ischeck == '0'){
-			mui.openWindow({
-			    url:'detail.html',
-			    id:'detail.html',
-			    extras:{
-			        attendanceid:'1'
-			    }
-			});
-		}else{
-			mui.openWindow({
-			    url:'check.html',
-			    id:'check.html',
-			    extras:{
-			        attendanceid:'1'
-			    }
-			});
-		}
-	});
+	
 	(function($) {
+		$.ready(function() {
+			//加载第一个选项卡--待审核
+			createHtml("att.json", 'item1mobile');
+			
+			//循环初始化所有下拉刷新，上拉加载。
+			$.each(document.querySelectorAll('.mui-slider-group .mui-scroll-wrapper'), function(index, pullRefreshEl) {
+				$("#scroll"+(index+1)).pullRefresh({
+					down: {
+						contentrefresh: '正在刷新...',
+						callback: function() {
+							
+							setTimeout(function() {
+								createHtml("att1.json", "item"+(index+1)+"mobile");
+								$("#scroll"+(index+1)).pullRefresh().endPulldownToRefresh();
+							}, 1000);
+						}
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: function() {
+							
+							setTimeout(function() {
+								createHtml("att1.json", "item"+(index+1)+"mobile");
+								$("#scroll"+(index+1)).pullRefresh().endPullupToRefresh(false);
+							}, 1000);
+						}
+					}
+				});
+			});		
+		});
+		
+		//按状态查询服务器数据
+		var storage = window.localStorage;
+		var root = storage.getItem('root');
+		var createHtml = function(url, itemid){
+			mui.ajax("../../js/data/"+url, {
+				dataType:'json',//服务器返回json格式数据
+				type:'get',//HTTP请求类型
+				timeout:5000,//超时时间设置为10秒；
+				success:function(data){
+					//服务器返回响应，根据响应结果，分析是否登录成功；
+					if(data.status == 'OK'){
+						var html = '<ul class="mui-table-view">';
+						for(var i = 0; i < data.attendances.length; i++){
+							html += '<li class="mui-table-view-cell mui-media">'+
+								'<a class="mui-navigate-right" data-needcheck="0" data-attendanceid="'+data.attendances[i].id+'">'+
+									'<img class="mui-media-object mui-pull-left" src="../../images/user-photo.png">'+
+									'<div class="mui-media-body">'+data.attendances[i].username+
+										'<p class="mui-ellipsis">'+data.attendances[i].reason+'</p><p class="mui-ellipsis">'+
+										data.attendances[i].startday.substr(0, 10)+'~'+data.attendances[i].endday.substr(0, 10)+'</p></div></a></li>';
+						}
+						html += '</ul>';
+						document.getElementById(itemid).querySelector('.mui-scroll').innerHTML = html;
+						
+						mui('.mui-table-view').on('tap', 'a', function(e) {
+						if(this.dataset.needcheck == '0'){
+							mui.openWindow({
+							    url:'detail.html',
+							    id:'detail.html',
+							    extras:{
+							        attendanceid:this.dataset.attendanceid
+							    }
+							});
+						}else{
+							mui.openWindow({
+							    url:'check.html',
+							    id:'check.html',
+							    extras:{
+							        attendanceid:'1'
+							    }
+							});
+						}
+					});
+					}else{
+						mui.toast('获取失败');
+					}
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					mui.toast('网络异常');
+				}
+			});
+		};
+		
 		$('.mui-scroll-wrapper').scroll({
 			indicators: true //是否显示滚动条
 		});
-		var html2 = '<ul class="mui-table-view"><li class="mui-table-view-cell">第二个选项卡子项-1</li><li class="mui-table-view-cell">第二个选项卡子项-2</li><li class="mui-table-view-cell">第二个选项卡子项-3</li><li class="mui-table-view-cell">第二个选项卡子项-4</li><li class="mui-table-view-cell">第二个选项卡子项-5</li></ul>';
-		var html3 = '<ul class="mui-table-view"><li class="mui-table-view-cell">第三个选项卡子项-1</li><li class="mui-table-view-cell">第三个选项卡子项-2</li><li class="mui-table-view-cell">第三个选项卡子项-3</li><li class="mui-table-view-cell">第三个选项卡子项-4</li><li class="mui-table-view-cell">第三个选项卡子项-5</li></ul>';
-		var item2 = document.getElementById('item2mobile');
-		var item3 = document.getElementById('item3mobile');
+
 		document.getElementById('slider').addEventListener('slide', function(e) {
-			if (e.detail.slideNumber === 1) {
-				if (item2.querySelector('.mui-loading')) {
-					setTimeout(function() {
-						item2.querySelector('.mui-scroll').innerHTML = html2;
-					}, 500);
-				}
-			} else if (e.detail.slideNumber === 2) {
-				if (item3.querySelector('.mui-loading')) {
-					setTimeout(function() {
-						item3.querySelector('.mui-scroll').innerHTML = html3;
-					}, 500);
-				}
-			}
+			createHtml("att.json", "item"+(e.detail.slideNumber+1)+"mobile");
 		});
-		var sliderSegmentedControl = document.getElementById('sliderSegmentedControl');
-		$('.mui-input-group').on('change', 'input', function() {
-			if (this.checked) {
-				sliderSegmentedControl.className = 'mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-' + this.value;
-				//force repaint
-				sliderProgressBar.setAttribute('style', sliderProgressBar.getAttribute('style'));
-			}
-		});
+
 	})(mui);
 </script>
 </body>

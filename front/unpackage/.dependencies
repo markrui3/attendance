@@ -1,1 +1,192 @@
-null
+{
+  "templates/login.html": {
+    "href": "templates/login.html",
+    "priority": 1
+  },
+  "templates/forget_password.html": {
+    "href": "templates/forget_password.html",
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "fonts/mui.ttf"
+    ],
+    "priority": 1
+  },
+  "templates/dash.html": {
+    "href": "templates/dash.html",
+    "resources": [],
+    "refer": [
+      "templates/self/self.html",
+      "templates/statistic/statistic.html"
+    ],
+    "priority": 0
+  },
+  "templates/reg.html": {
+    "href": "templates/reg.html",
+    "resources": [
+      "js/mui.min.js",
+      "css/style.css",
+      "css/mui.min.css",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "templates/login.html"
+    ],
+    "priority": 3
+  },
+  "templates/statistic/detail.html": {
+    "href": "templates/statistic/detail.html",
+    "priority": 2
+  },
+  "templates/statistic/check.html": {
+    "href": "templates/statistic/check.html",
+    "resources": [
+      "js/mui.poppicker.js",
+      "css/mui.picker.css",
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "css/iconfont.css",
+      "css/style.css",
+      "js/mui.min.js",
+      "favicon.ico",
+      "css/mui.poppicker.css",
+      "js/mui.picker.js"
+    ],
+    "priority": 2
+  },
+  "templates/statistic/statistic-self.html": {
+    "href": "templates/statistic/statistic-self.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "css/iconfont.css",
+      "css/style.css",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "templates/statistic/detail.html",
+      "templates/statistic/check.html"
+    ],
+    "priority": 1
+  },
+  "templates/self/chat.html": {
+    "href": "templates/self/chat.html",
+    "resources": [
+      "css/mui.imageviewer.css",
+      "js/arttmpl.js",
+      "css/app.css",
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/mui.min.js",
+      "js/mui.imageViewer.js",
+      "images/logo.jpg"
+    ],
+    "priority": 2
+  },
+  "templates/self/events.json.php": {
+    "href": "templates/self/events.json.php",
+    "priority": 3
+  },
+  "templates/self/sign.html": {
+    "href": "templates/self/sign.html",
+    "resources": [
+      "libs/components/bootstrap3/css/bootstrap.min.css",
+      "libs/components/bootstrap3/js/bootstrap.min.js",
+      "js/language/zh-CN.js",
+      "libs/components/underscore/underscore-min.js",
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/mui.min.js",
+      "js/calendar.js",
+      "libs/components/jstimezonedetect/jstz.min.js",
+      "css/calendar.css",
+      "libs/components/bootstrap3/css/bootstrap-theme.min.css",
+      "css/mui.picker.min.css",
+      "libs/components/jquery/jquery.min.js",
+      "js/mui.picker.min.js"
+    ],
+    "refer": [
+      "templates/self/events.json.php"
+    ],
+    "priority": 3
+  },
+  "templates/self/feedback.html": {
+    "href": "templates/self/feedback.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/mui.min.js",
+      "css/feedback-page.css",
+      "images/iconfont-tianjia.png"
+    ],
+    "priority": 4
+  },
+  "templates/self/edit-attendance.html": {
+    "href": "templates/self/edit-attendance.html",
+    "resources": [
+      "js/mui.poppicker.js",
+      "css/mui.picker.css",
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "css/iconfont.css",
+      "css/style.css",
+      "js/mui.min.js",
+      "favicon.ico",
+      "css/mui.poppicker.css",
+      "js/mui.picker.js"
+    ],
+    "priority": 5
+  },
+  "templates/self/self.html": {
+    "href": "templates/self/self.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "css/iconfont.css",
+      "css/style.css",
+      "js/mui.min.js",
+      "images/user-photo.png"
+    ],
+    "refer": [
+      "templates/login.html",
+      "templates/statistic/statistic-self.html",
+      "templates/self/chat.html",
+      "templates/self/sign.html",
+      "templates/self/feedback.html",
+      "templates/self/edit-attendance.html"
+    ],
+    "priority": 0
+  },
+  "templates/homepage/homepage.html": {
+    "href": "templates/homepage/homepage.html",
+    "resources": [
+      "js/app.js",
+      "images/yuantiao.jpg",
+      "libs/bower_components/angular-resource/angular-resource.min.js",
+      "libs/bower_components/angular/angular.min.js"
+    ],
+    "priority": 1
+  },
+  "templates/statistic/statistic.html": {
+    "href": "templates/statistic/statistic.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "css/iconfont.css",
+      "css/style.css",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "templates/statistic/detail.html"
+    ],
+    "priority": 2
+  },
+  "index.html": {
+    "href": "index.html",
+    "resources": [],
+    "refer": [
+      "templates/login.html"
+    ],
+    "priority": 0
+  }
+}

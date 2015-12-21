@@ -10,4 +10,10 @@ app.controller('ctrl_homepage', function($scope, $http){
 		$scope.pm25 = response.results[0].pm25;
 		$scope.des = response.results[0].index[0].des;
 	});
+	$scope.comeSign = function(){
+		mui.toast('开始');
+	};
+	$scope.leaveSign = function(){
+		mui.toast('结束');
+	};
 });
