@@ -17,3 +17,30 @@ app.controller('ctrl_homepage', function($scope, $http){
 		mui.toast('结束');
 	};
 });
+app.controller('ctrl_self', function($scope, $http){
+	$scope.name = window.localStorage.name;
+	$scope.phone = "账号："+window.localStorage.phone;
+});
+
+app.controller('ctrl_setting', function($scope, $http){
+	$scope.name = window.localStorage.name;
+	$scope.phone = "账号："+window.localStorage.phone;
+	$scope.email = window.localStorage.email;
+	$scope.gender = window.localStorage.gender == "0"? "男":"女";
+	$scope.startworkdate = window.localStorage.startworkdate;
+	$scope.department = window.localStorage.department;
+	switch(window.localStorage.position){
+		case "0":
+			$scope.position = "员工";
+			break;
+		case "1":
+			$scope.position = "部门经理";
+			break;
+		case "2":
+			$scope.position = "副总经理";
+			break;
+		case "3":
+			$scope.position = "总经理";
+			break;
+	}
+});
