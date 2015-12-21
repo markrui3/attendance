@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import tju.att.manager.AttendanceManager;
 import tju.att.manager.CheckManager;
 import tju.att.manager.HolidayManager;
+import tju.att.manager.SignManager;
 import tju.att.manager.UserManager;
 
 public class BaseController extends BaseInfo{
@@ -24,6 +25,8 @@ public class BaseController extends BaseInfo{
 	protected AttendanceManager attendanceManager;
 	@Resource(name="checkManager")
 	protected CheckManager checkManager;
+	@Resource(name="signManager")
+	protected SignManager signManager;
 	
 	@InitBinder
 	public void initBinder(WebDataBinder binder){

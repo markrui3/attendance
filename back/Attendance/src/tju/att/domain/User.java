@@ -31,6 +31,7 @@ public class User implements java.io.Serializable {
 	private Integer gender;
 	private Date birthday;
 	private String position;
+	private String email;
 	private Date startworkdate;
 
 	// Constructors
@@ -41,19 +42,20 @@ public class User implements java.io.Serializable {
 
 	/** minimal constructor */
 	public User(String phone, String pwd, String name, Integer gender,
-			Date birthday, String position, Date startworkdate) {
+			Date birthday, String position, String email, Date startworkdate) {
 		this.phone = phone;
 		this.pwd = pwd;
 		this.name = name;
 		this.gender = gender;
 		this.birthday = birthday;
 		this.position = position;
+		this.email = email;
 		this.startworkdate = startworkdate;
 	}
 
 	/** full constructor */
 	public User(String phone, String department, String pwd, String name,
-			Integer gender, Date birthday, String position, Date startworkdate) {
+			Integer gender, Date birthday, String position, String email, Date startworkdate) {
 		this.phone = phone;
 		this.department = department;
 		this.pwd = pwd;
@@ -61,6 +63,7 @@ public class User implements java.io.Serializable {
 		this.gender = gender;
 		this.birthday = birthday;
 		this.position = position;
+		this.email = email;
 		this.startworkdate = startworkdate;
 	}
 
@@ -148,6 +151,15 @@ public class User implements java.io.Serializable {
 
 	public void setStartworkdate(Date startworkdate) {
 		this.startworkdate = startworkdate;
+	}
+	
+	@Column(name = "email", nullable = false, length = 50)
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

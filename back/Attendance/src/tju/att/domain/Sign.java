@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -23,8 +21,9 @@ public class Sign implements java.io.Serializable {
 
 	private Long id;
 	private Long userid;
-	private Timestamp timecome;
-	private Timestamp timeleave;
+	private Integer timecome;
+	private Integer timeleave;
+	private Timestamp time;
 
 	// Constructors
 
@@ -33,10 +32,11 @@ public class Sign implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Sign(Long userid, Timestamp timecome, Timestamp timeleave) {
+	public Sign(Long userid, Integer timecome, Integer timeleave,Timestamp time) {
 		this.userid = userid;
 		this.timecome = timecome;
 		this.timeleave = timeleave;
+		this.time = time;
 	}
 
 	// Property accessors
@@ -61,21 +61,30 @@ public class Sign implements java.io.Serializable {
 	}
 
 	@Column(name = "timecome", nullable = false, length = 0)
-	public Timestamp getTimecome() {
+	public Integer getTimecome() {
 		return this.timecome;
 	}
 
-	public void setTimecome(Timestamp timecome) {
+	public void setTimecome(Integer timecome) {
 		this.timecome = timecome;
 	}
 
 	@Column(name = "timeleave", nullable = false, length = 0)
-	public Timestamp getTimeleave() {
+	public Integer getTimeleave() {
 		return this.timeleave;
 	}
 
-	public void setTimeleave(Timestamp timeleave) {
+	public void setTimeleave(Integer timeleave) {
 		this.timeleave = timeleave;
+	}
+	
+	@Column(name = "time", nullable = false, length = 0)
+	public Timestamp getTime() {
+		return this.time;
+	}
+
+	public void setTime(Timestamp time) {
+		this.time = time;
 	}
 
 }

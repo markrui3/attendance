@@ -42,6 +42,14 @@ public interface AttendanceManager {
 	 * @return
 	 */
 	public List<Attendance> getByStatus(String status);
+	
+	/**
+	 * 根据  申请所处的状态列表 获取请假列表
+	 * @param status
+	 * @return
+	 */
+	public List<Attendance> getByStatusList(String status);
+	
 	/**
 	 * 添加请假记录
 	 * @param attendance
@@ -63,4 +71,11 @@ public interface AttendanceManager {
 	 * @return
 	 */
 	public List<Attendance> getPassOrNot(Long userid, String status);
+	
+	/**
+	 * 获取审核过的请假
+	 * @param userid
+	 * @return
+	 */
+	public List<Attendance> getCheckedAtt(Long userid);
 }

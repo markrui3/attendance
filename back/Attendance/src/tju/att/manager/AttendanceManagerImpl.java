@@ -113,4 +113,20 @@ public class AttendanceManagerImpl extends BaseInfo implements
 		return map;
 	}
 
+	@Override
+	public List<Attendance> getCheckedAtt(Long userid) {
+		List<Object[]> list = attendanceDao.getCheckedAtt(userid);
+		List<Attendance> returnList = new ArrayList<Attendance>();
+		for(int i=0;i<list.size();i++){
+			Attendance attendance = (Attendance)list.get(i)[0];
+			returnList.add(attendance);
+		}
+		return returnList;
+	}
+
+	@Override
+	public List<Attendance> getByStatusList(String status) {
+		return attendanceDao.getByStatusList(status);
+	}
+
 }

@@ -16,8 +16,13 @@ public interface AttendanceDao extends BaseDao<Attendance>{
 	//根据  申请所处的状态 获取请假列表
 	public List<Attendance> getByStatus(String status);
 	
+	//根据  申请所处的状态 获取请假列表列表
+	public List<Attendance> getByStatusList(String status);
+	
 	//获取 处理完成  或者正在审核的请假信息
 	public List<Attendance> getPassOrNot(Long userid, String status);
 	
+	//获取处理过的请求
+	public List<Object[]> getCheckedAtt(Long userid);
 	
 }

@@ -1,5 +1,6 @@
 package tju.att.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,17 +103,48 @@ public class AttendanceController extends BaseController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("getWaitCheck")
-	public Map<String, Object> getWaitCheck(HttpSession httpSession) {
+	@RequestMapping("getWaitCheck/{status}")
+	public Map<String, Object> getWaitCheck(@PathVariable String status,
+			HttpSession httpSession) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		User user = (User)httpSession.getAttribute("user");
-		List<Attendance> list = null;
-		if(user.getPosition().equals(LEVEL_1)){
-			list = attendanceManager.getByDepartAndStatus(user.getDepartment(),WAITCHECK);
-		}else if(user.getPosition().equals(LEVEL_2)){
-			list = attendanceManager.getByDepartAndStatus(user.getDepartment(),PASS_1);
-		}else if(user.getPosition().equals(LEVEL_3)){
-			list = attendanceManager.getByStatus(PASS_2);
+		List<Attendance> list = new ArrayList<Attendance>();
+		if(status.equals("0")){
+			if(user.getPosition().equals(LEVEL_1)){
+				list = attendanceManager.getByDepartAndStatus(user.getDepartment(),WAITCHECK);
+			}else if(user.getPosition().equals(LEVEL_2)){
+				list = attendanceManager.getByDepartAndStatus(user.getDepartment(),PASS_1);
+			}else if(user.getPosition().equals(LEVEL_3)){
+				list = attendanceManager.getByStatus(PASS_2);
+			}
+		}else if(status.equals("1")){
+			list = attendanceManager.getCheckedAtt(user.getId());
+		}else if(status.equals("2")){
+			if(user.getPosition().equals(LEVEL_1)){
+				list = attendanceManager.getByDepartAndStatus(user.getDepartment(),WAITCHECK);
+			}else if(user.getPosition().equals(LEVEL_2)){
+				list = attendanceManager.getByDepartAndStatus(user.getDepartment(),PASS_1);
+			}else if(user.getPosition().equals(LEVEL_3)){
+				list = attendanceManager.getByStatus(PASS_2);
+			}
+			List<Attendance> list2 = attendanceManager.getCheckedAtt(user.getId());
+			list.addAll(list2);
+		}
+		map.put("attList", list);
+		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping("getBySat/{status}")
+	public Map<String, Object> getByStatus(@PathVariable String status,
+			HttpSession httpSession) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		User user = (User)httpSession.getAttribute("user");
+		List<Attendance> list = new ArrayList<Attendance>();
+		if(user != null){
+			list = attendanceManager.getByStatusList(status);
+		}else{
+			list = null;
 		}
 		map.put("attList", list);
 		return map;

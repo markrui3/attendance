@@ -54,6 +54,14 @@ public class BaseInfo {
 	//大于三天的需要三级审批
 	//小于等于三天的需要一级审批
 	protected float SEPDAYS = 3;
+	
+	
+	//打卡
+	//0-未到   1-迟到|早退  2-准时签到
+	protected int COMENO = 0;
+	protected int COMENOTTIME = 1;
+	protected int COMEONTIME = 2;
+	
 
 
 }

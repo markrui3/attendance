@@ -49,4 +49,14 @@
 		<property name="target" ref="checkManagerBase"></property>
 	</bean>
 	
+	
+	<bean id="sign" class="tju.att.domain.Sign"></bean>
+	<bean id="signDao" class="tju.att.dao.SignDaoImpl"></bean>
+	<bean id="signManagerBase" class="tju.att.manager.SignManagerImpl">
+		<property name="signDao" ref="signDao"></property>
+	</bean>
+	<!-- 此处为代理 -->
+	<bean name="signManager" parent="transactionProxy">
+		<property name="target" ref="signManagerBase"></property>
+	</bean>
 </beans>
