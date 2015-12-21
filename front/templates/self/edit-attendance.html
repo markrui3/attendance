@@ -72,42 +72,77 @@
 	(function($, doc) {
 		$.init();
 		$.ready(function() {
-			var holidayid = '', startday = '', endday = '';
+			var holidayid = '', startday = '', endday = '', remainday = 0;
 			//载入请假类型
 			var typePicker = new $.PopPicker();
+			var storage = window.localStorage;
+			var root = storage.getItem("root");
+			mui.ajax(root+"attendance/holiday/getOneHoli/", {
+				dataType:'json',//服务器返回json格式数据
+				type:'post',//HTTP请求类型
+				timeout:5000,//超时时间设置为5秒；
+				success:function(data){
+					typePicker.setData(data.RList);
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					mui.toast('网络异常');
+				}
+			});
+		
+			
 			typePicker.setData([{
-				holidayid: 9,
-				text: '事假',
-				lastday: 10000
-			}, {
-				holidayid: 1,
-				text: '病假'
-			},{
-				holidayid: 2,
-				text: '婚假1'
-			},{
-				holidayid: 3,
-				text: '婚假2'
-			},{
-				holidayid: 4,
-				text: '产假'
-			},{
-				holidayid: 5,
-				text: '陪产假'
-			},{
-				holidayid: 6,
-				text: '年假1'
-			},{
-				holidayid: 7,
-				text: '年假2'
-			},{
-				holidayid: 8,
-				text: '出差'
-			}]);
+	            "id": 1,
+	            "holidayid": "0",
+	            "remainday": null,
+	            "lastday": "10000",
+	            "holidayname": "事假",
+	            "holidayproperity": 1
+	        },
+	        {
+	            "id": 2,
+	            "holidayid": "1",
+	            "remainday": 9996,
+	            "lastday": "10000",
+	            "holidayname": "病假",
+	            "holidayproperity": 1
+	        },
+	        {
+	            "id": 3,
+	            "holidayid": "2",
+	            "remainday": null,
+	            "lastday": "7",
+	            "holidayname": "婚假1",
+	            "holidayproperity": 0
+	        },
+	        {
+	            "id": 6,
+	            "holidayid": "5",
+	            "remainday": null,
+	            "lastday": "7",
+	            "holidayname": "陪产假",
+	            "holidayproperity": 0
+	        },
+	        {
+	            "id": 7,
+	            "holidayid": "6",
+	            "remainday": null,
+	            "lastday": "10",
+	            "holidayname": "年假1",
+	            "holidayproperity": 0
+	        },
+	        {
+	            "id": 9,
+	            "holidayid": "8",
+	            "remainday": null,
+	            "lastday": "10000",
+	            "holidayname": "出差",
+	            "holidayproperity": 0
+	        }]);
 			var typePickerButton = doc.getElementById('typePicker');
 			typePickerButton.addEventListener('tap', function(event) {
 				typePicker.show(function(items) {
-					holidayid = items[0].holidayid;
+					holidayid = items[0].id;
 					doc.getElementById('type').innerHTML = items[0].text;
 					//返回 false 可以阻止选择框的关闭
 					//return false;
