@@ -37,7 +37,15 @@ public class AttendanceController extends BaseController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		User user = (User)httpSession.getAttribute("user");
 		attendance.setUserid(user.getId());   //…Ë÷√«ÎºŸ»À
-		attendance.setStatus(WAITCHECK);      //…Ë÷√«ÎºŸ≥ı º◊¥Ã¨
+		if(user.getPosition().equals(LEVEL_0)){
+			attendance.setStatus(WAITCHECK);      //…Ë÷√«ÎºŸ≥ı º◊¥Ã¨
+		}else if(user.getPosition().equals(LEVEL_1)){
+			attendance.setStatus(PASS_1);
+		}else if(user.getPosition().endsWith(LEVEL_2)){
+			attendance.setStatus(PASS_2);
+		}else if(user.getPosition().endsWith(LEVEL_3)){
+			attendance.setStatus(PASS);
+		}
 		if(attendanceManager.add(attendance)){
 			map.put("status", OK);
 		}else{
