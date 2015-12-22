@@ -144,7 +144,7 @@ public class User implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "startworkdate", nullable = false, length = 0)
+	@Column(name = "startworkdate", nullable = true, length = 0)
 	public Date getStartworkdate() {
 		return this.startworkdate;
 	}
