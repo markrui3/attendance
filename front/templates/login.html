@@ -113,7 +113,7 @@
 					mui.toast('请输入密码');
 					return;
 				}
-				mui.ajax(root+'/attendance/user/login/'+document.getElementById('phone').value+'/'+document.getElementById('pwd').value, {
+				mui.ajax(root+'/user/login/'+document.getElementById('phone').value+'/'+document.getElementById('pwd').value, {
 					dataType:'json',//服务器返回json格式数据
 					type:'get',//HTTP请求类型
 					timeout:10000,//超时时间设置为10秒；

@@ -93,7 +93,7 @@
 	var root = storage.getItem("root");
 	document.getElementById('quit').addEventListener('tap', function() {
 		storage.clear();
-		mui.ajax(root+'/attendance/user/logout', {
+		mui.ajax(root+'/user/logout', {
 			dataType:'json',//服务器返回json格式数据
 			type:'get',//HTTP请求类型
 			timeout:5000,//超时时间设置为5秒；
