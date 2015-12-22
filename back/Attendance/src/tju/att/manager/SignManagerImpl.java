@@ -22,7 +22,7 @@ public class SignManagerImpl extends BaseInfo implements SignManager{
 	}
 	
 	@Override
-	public boolean add(Sign sign) {
+	public boolean add(Sign sign,Long userid) {
 		try {
 			Date dateNow = new Date();
 			if(dateNow.getTime() < getDateTime(12).getTime()){
@@ -35,7 +35,7 @@ public class SignManagerImpl extends BaseInfo implements SignManager{
 				sign.setTime((Timestamp)getDateTime(12));
 				signDao.save(sign);
 			}else if(dateNow.getTime() >= getDateTime(12).getTime()){
-				List<Sign> list = signDao.getByDate(getDateTime(0), getDateTime(24));
+				List<Sign> list = signDao.getByDate(getDateTime(0), getDateTime(24),userid);
 				if(list.size() == 0){
 					if(dateNow.getTime() < getDateTime(18).getTime()){
 						sign.setTimeleave(COMENOTTIME);
