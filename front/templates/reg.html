@@ -94,15 +94,32 @@
 							password: passwordBox.value,
 							email: emailBox.value
 						};
+						if(regInfo.account.length == 0){
+							mui.toast("请输入用户名");
+							return;
+						}
 						var passwordConfirm = passwordConfirmBox.value;
 						if (passwordConfirm != regInfo.password) {
 							plus.nativeUI.toast('密码两次输入不一致');
 							return;
 						}
-						mui.ajax(root+'/attendance/user/reg/'+account+"/"+password+"/"+"email", {
-							dataType:'json',//服务器返回json格式数据
-							type:'get',//HTTP请求类型
-							timeout:5000,//超时时间设置为10秒；
+						if(regInfo.email.length == 0){
+							mui.toast("请输入邮箱");
+							return;
+						}
+						var root = window.localStorage.getItem("root");
+						var data = {
+								"phone":regInfo.account,
+								"pwd":regInfo.password,
+								"email":regInfo.email
+						};
+						data = JSON.stringify(data);
+						mui.ajax(root+'/attendance/user/regist', {
+							data:data,
+							contentType:"application/json; charset=utf-8",
+							dataType:"json",//服务器返回json格式数据
+							type:"post",//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
 							success:function(data){
 								//服务器返回响应，根据响应结果，分析是否登录成功；
 								if(data.status == 'OK'){
@@ -127,10 +144,10 @@
 											id:'dash.html',
 											createNew:false,
 										});
-										mui.toast('登录成功');
+										mui.toast('注册成功');
 									});
 								}else{
-									mui.toast('用户名或密码错误');
+									mui.toast('注册失败');
 								}
 							},
 							error:function(xhr,type,errorThrown){

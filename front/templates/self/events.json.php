@@ -1,17 +1,17 @@
 {
-	"success": 1,
-	"result": [
+	"status": "OK",
+	"list": [
 		{
 			"id": "294",
 			"time":"2015-12-17",
-			"come": "1",
-			"leave": "2"
+			"timecome": "1",
+			"timeleave": "2"
 		},
 		{
 			"id": "295",
 			"time":"2015-12-18",
-			"come": "1",
-			"leave": "2"
+			"timecome": "1",
+			"timeleave": "2"
 		}
 	]
 }

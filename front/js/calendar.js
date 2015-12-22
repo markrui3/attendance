@@ -913,14 +913,14 @@ if(!String.prototype.formatNum) {
 							type: 'GET',
 							async: false
 						}).done(function(json) {
-							if(!json.success) {
+							if(json.status != "OK") {
 								mui.alert('签到查询发生错误，客观别着急~', '签到查询', function() {
 									
 								});
 								//$.error(json.error);
 							}
-							if(json.result) {
-								events = json.result;
+							if(json.list) {
+								events = json.list;
 							}
 						});
 						return events;
@@ -1197,8 +1197,8 @@ if(!String.prototype.formatNum) {
 				}
 			});
 			//只对当天之前的数据模拟
-			if(parseInt(new Date().getTime()) >= end && events.length == 0){
-				events.push({"id": "0","time":start + 1000,"come": "0","leave": "0"});
+			if(parseInt(new Date().getTime()) >= start && events.length == 0){
+				events.push({"id": "0","time":start + 1000,"timecome": "0","timeleave": "0"});
 			}
 		}
 		

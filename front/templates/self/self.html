@@ -90,11 +90,30 @@
 		});
 	});
 	
+	var root = storage.getItem("root");
 	document.getElementById('quit').addEventListener('tap', function() {
 		storage.clear();
-		mui.openWindow({
-		    url:'../login.html',
-		    id:'login.html'
+		mui.ajax(root+'/attendance/user/logout', {
+			dataType:'json',//服务器返回json格式数据
+			type:'get',//HTTP请求类型
+			timeout:5000,//超时时间设置为5秒；
+			success:function(data){
+				//服务器返回响应，根据响应结果，分析是否登录成功；
+				if(data.status == 'OK'){
+					mui.toast('注销成功');
+					mui.openWindow({
+					    url:'../login.html',
+					    id:'login.html'
+					});
+				}else{
+					mui.toast('注销错误');
+				}
+			},
+			error:function(xhr,type,errorThrown){
+				//异常处理；
+				console.log(xhr,type,errorThrown);
+				mui.toast('网络异常');
+			}
 		});
 	});
 </script>

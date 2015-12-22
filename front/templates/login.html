@@ -116,7 +116,7 @@
 				mui.ajax(root+'/attendance/user/login/'+document.getElementById('phone').value+'/'+document.getElementById('pwd').value, {
 					dataType:'json',//服务器返回json格式数据
 					type:'get',//HTTP请求类型
-					timeout:5000,//超时时间设置为10秒；
+					timeout:10000,//超时时间设置为10秒；
 					success:function(data){
 						//服务器返回响应，根据响应结果，分析是否登录成功；
 						if(data.status == 'OK'){
