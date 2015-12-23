@@ -3,6 +3,8 @@
 
 	<head>
 		<meta charset="utf-8">
+		<meta http-equiv="Access-Control-Allow-Origin" content="">
+		<meta http-equiv="content-security-policy">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
 		<link href="../css/mui.min.css" rel="stylesheet" />
@@ -107,22 +109,23 @@
 							mui.toast("请输入邮箱");
 							return;
 						}
-						var root = window.localStorage.getItem("root");
+						var storage = window.localStorage;
+						var root = storage.getItem("root");
 						var data = {
 								"phone":regInfo.account,
 								"pwd":regInfo.password,
 								"email":regInfo.email
 						};
 						data = JSON.stringify(data);
-						mui.ajax(root+'/attendance/user/regist', {
+						mui.ajax(root+'/user/regist', {
 							data:data,
-							contentType:"application/json; charset=utf-8",
+							contentType:"application/json;charset=UTF-8",
 							dataType:"json",//服务器返回json格式数据
 							type:"post",//HTTP请求类型
 							timeout:10000,//超时时间设置为10秒；
 							success:function(data){
 								//服务器返回响应，根据响应结果，分析是否登录成功；
-								if(data.status == 'OK'){
+								if(data.states == 'OK'){
 									storage.setItem('id', data.user.id);
 									storage.setItem('name', data.user.name);
 									storage.setItem('position', data.user.position);
