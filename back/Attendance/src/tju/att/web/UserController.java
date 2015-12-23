@@ -108,5 +108,40 @@ public class UserController extends BaseController {
 		}
 		return map;
 	}
+	
+	@ResponseBody
+	@RequestMapping("/getPage/{pageNow}/{pageSize}")
+	public Map<String, Object> getPage(@PathVariable String pageNow,
+			@PathVariable String pageSize,
+			HttpSession httpSession){
+		Map<String, Object> map = new HashMap<String, Object>();
+		User user = (User)httpSession.getAttribute("user");
+		if(user != null){
+			List<User> list = userManager.getPage(pageNow, pageSize);
+			map.put("status", OK);
+			map.put("list", list);
+		}else{
+			map.put("status", ERROR);
+			map.put("list", null);
+		}
+		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/getById/{userid}")
+	public Map<String, Object> getById(@PathVariable String userid,
+			HttpSession httpSession){
+		Map<String, Object> map = new HashMap<String, Object>();
+		User user = (User)httpSession.getAttribute("user");
+		if(user != null){
+			User userGet = userManager.findById(Long.parseLong(userid));
+			map.put("status", OK);
+			map.put("user", userGet);
+		}else{
+			map.put("status", ERROR);
+			map.put("user", null);
+		}
+		return map;
+	}
 
 }

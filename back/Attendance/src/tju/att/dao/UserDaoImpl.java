@@ -2,6 +2,8 @@ package tju.att.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
+
 import tju.att.base.BaseDaoImpl;
 import tju.att.domain.User;
 
@@ -43,9 +45,11 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao{
 
 	@Override
 	public List<User> getPage(int pageNow, int pageSize) {
-		String sql="from User u limit "
-				+((pageNow-1)*pageSize)+","+pageSize;
-		return null;
+		final String sql="from User ";
+		final Query q = getSession().createQuery(sql);
+		q.setFirstResult((pageNow-1)*pageSize);
+		q.setMaxResults(pageSize);
+		return q.list();
 	}
 
 }

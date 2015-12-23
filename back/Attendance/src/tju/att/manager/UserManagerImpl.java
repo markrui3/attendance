@@ -55,8 +55,12 @@ public class UserManagerImpl extends BaseInfo implements UserManager{
 
 	@Override
 	public List<User> getPage(String pageNow, String pageSize) {
-		// TODO Auto-generated method stub
-		return null;
+		return userDao.getPage(Integer.parseInt(pageNow), Integer.parseInt(pageSize));
+	}
+
+	@Override
+	public User findById(Long userid) {
+		return this.userDao.getById(userid);
 	}
 	
 
