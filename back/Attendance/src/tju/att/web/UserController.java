@@ -1,6 +1,7 @@
 package tju.att.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -89,6 +90,22 @@ public class UserController extends BaseController {
 		httpSession.removeAttribute("user");
 		httpSession.invalidate();
 		map.put("status", OK);
+		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/getAll")
+	public Map<String, Object> getAll(HttpSession httpSession){
+		Map<String, Object> map = new HashMap<String, Object>();
+		User user = (User)httpSession.getAttribute("user");
+		if(user != null){
+			List<User> list = userManager.getAll();
+			map.put("status", OK);
+			map.put("list", list);
+		}else{
+			map.put("status", ERROR);
+			map.put("list", null);
+		}
 		return map;
 	}
 

@@ -1,5 +1,7 @@
 package tju.att.manager;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import tju.att.base.BaseInfo;
@@ -44,6 +46,17 @@ public class UserManagerImpl extends BaseInfo implements UserManager{
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public List<User> getAll() {
+		return this.userDao.findAll();
+	}
+
+	@Override
+	public List<User> getPage(String pageNow, String pageSize) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

@@ -41,4 +41,11 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao{
 				.list();
 	}
 
+	@Override
+	public List<User> getPage(int pageNow, int pageSize) {
+		String sql="from User u limit "
+				+((pageNow-1)*pageSize)+","+pageSize;
+		return null;
+	}
+
 }
