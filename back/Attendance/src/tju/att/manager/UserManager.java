@@ -19,4 +19,6 @@ public interface UserManager{
 	public boolean saveUser(User user);
 	//更新一个用户
 	public boolean updateUser(User user);
+	//
+	public boolean delete(Long id);
 }

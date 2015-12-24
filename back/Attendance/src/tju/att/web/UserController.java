@@ -143,5 +143,23 @@ public class UserController extends BaseController {
 		}
 		return map;
 	}
+	
+	@ResponseBody
+	@RequestMapping("/delete/{userid}")
+	public Map<String, Object> delete(@PathVariable String userid,
+			HttpSession httpSession){
+		Map<String, Object> map = new HashMap<String, Object>();
+		User user = (User)httpSession.getAttribute("user");
+		if(user != null){
+			if(userManager.delete(Long.parseLong(userid))){
+				map.put("status", OK);
+			}else{
+				map.put("status", ERROR);
+			}
+		}else{
+			map.put("status", ERROR);
+		}
+		return map;
+	}
 
 }

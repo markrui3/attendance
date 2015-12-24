@@ -62,6 +62,17 @@ public class UserManagerImpl extends BaseInfo implements UserManager{
 	public User findById(Long userid) {
 		return this.userDao.getById(userid);
 	}
+
+	@Override
+	public boolean delete(Long id) {
+		try {
+			userDao.delete(id);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 	
 
 }
