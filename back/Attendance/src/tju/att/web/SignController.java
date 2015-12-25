@@ -29,7 +29,7 @@ public class SignController extends BaseController{
 		User user = (User)httpSession.getAttribute("user");
 		if(user != null){
 			sign.setUserid(user.getId());
-			signManager.add(sign,user.getId());
+			signManager.add(user.getId());
 			map.put("status", OK);
 		}else{
 			map.put("status", ERROR);

@@ -11,7 +11,7 @@ public interface SignManager {
 	 * @param sign
 	 * @return
 	 */
-	public boolean add(Sign sign,Long userid);
+	public boolean add(Long userid);
 	
 	/**
 	 * 获取一个签到
