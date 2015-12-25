@@ -22,7 +22,9 @@ public class SignManagerImpl extends BaseInfo implements SignManager{
 	}
 	
 	@Override
-	public boolean add(Sign sign,Long userid) {
+	public boolean add(Long userid) {
+		Sign sign = new Sign();
+		sign.setId(userid);
 		try {
 			Date dateNow = new Date();
 			if(dateNow.getTime() < getDateTime(12).getTime()){
