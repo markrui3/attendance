@@ -33,6 +33,7 @@ public class Attendance implements java.io.Serializable {
 	private String reason;
 	private String applyday;
 	private String status;
+	private String tempUsername;
 
 	// Constructors
 
@@ -139,4 +140,10 @@ public class Attendance implements java.io.Serializable {
 		this.status = status;
 	}
 
+	public void setTempUsername(String tempUsername){
+		this.tempUsername = tempUsername;
+	}
+	public String getTempUsername(){
+		return this.tempUsername;
+	}
 }
