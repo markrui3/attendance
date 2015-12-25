@@ -10,18 +10,104 @@ app.controller('ctrl_homepage', function($scope, $http){
 		$scope.pm25 = response.results[0].pm25;
 		$scope.des = response.results[0].index[0].des;
 	});
+	var storage = window.localStorage;
+	var root = storage.getItem("root");
+	$scope.comeMsg = "还未签到";
+	$scope.leaveMsg = "还未签退";
 	$http
-	.get('http://api.map.baidu.com/telematics/v3/weather?location=%E5%A4%A9%E6%B4%A5&output=json&ak=A070e14d4e685d26358a908a3c896567')
+	.get(root+'/sign/getDay')
 	.success(function (response){
-		$scope.temperature = response.results[0].weather_data[0].temperature;
-		$scope.pm25 = response.results[0].pm25;
-		$scope.des = response.results[0].index[0].des;
+		if(response.status == "OK"){
+			if(response.sign != null){
+				switch(response.sign.come){
+					case "0":
+						$scope.comeMsg = "还未签到";
+						break;
+					case "1":
+						$scope.comeMsg = "迟到签到";
+						break;
+					case "2":
+						$scope.comeMsg = "准时签到";
+						break;
+				}
+				switch(response.sign.leave){
+					case "0":
+						$scope.leaveMsg = "还未签退";
+						break;
+					case "1":
+						$scope.leaveMsg = "早退签退";
+						break;
+					case "2":
+						$scope.leaveMsg = "准时签退";
+						break;
+				}
+			}else{
+				$scope.comeMsg = "还未签到";
+				$scope.leaveMsg = "还未签退";
+			}
+		}else{
+			$scope.comeMsg = "还未签到";
+			$scope.leaveMsg = "还未签退";
+		}
 	});
 	$scope.comeSign = function(){
-		mui.toast('开始');
+		$http
+		.post(root+'/sign/addSign')
+		.success(function (response){
+			alert(response);
+			mui.toast('开始');
+			$http
+			.get(root+'/sign/getDay')
+			.success(function (response){
+				if(response.status == "OK"){
+					if(response.sign != null){
+						mui.toast("成功签到");
+						switch(response.sign.come){
+							case "0":
+								$scope.comeMsg = "还未签到";
+								break;
+							case "1":
+								$scope.comeMsg = "迟到签到";
+								break;
+							case "2":
+								$scope.comeMsg = "准时签到";
+								break;
+						}
+					}else{
+						$scope.comeMsg = "还未签到";
+					}
+				}else{
+					$scope.comeMsg = "还未签到";
+				}
+			});
+		});
 	};
 	$scope.leaveSign = function(){
-		mui.toast('结束');
+		$http
+		.post(root+'/sign/addSign')
+		.success(function (response){
+			alert(response);
+			if(response.status == "OK"){
+				if(response.sign != null){
+					mui.toast("成功签退");
+					switch(response.sign.leave){
+						case "0":
+							$scope.leaveMsg = "还未签退";
+							break;
+						case "1":
+							$scope.leaveMsg = "早退签退";
+							break;
+						case "2":
+							$scope.leaveMsg = "准时签退";
+							break;
+					}
+				}else{
+					$scope.leaveMsg = "还未签退";
+				}
+			}else{
+				$scope.leaveMsg = "还未签退";
+			}
+		});
 	};
 });
 app.controller('ctrl_self', function($scope, $http){

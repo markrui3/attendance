@@ -66,9 +66,7 @@
 <script type="text/javascript">
 	var list = document.querySelectorAll('.not-worker');
 	var storage = window.localStorage;
-
 	if (storage.getItem("position") == "0" && list) {
-
 		for (var i = 0; i < list.length; i++) {
 			list[i].style.display = 'none';
 		}
@@ -93,10 +91,11 @@
 	var root = storage.getItem("root");
 	document.getElementById('quit').addEventListener('tap', function() {
 		storage.clear();
+		storage.setItem("root", root);
 		mui.ajax(root+'/user/logout', {
 			dataType:'json',//服务器返回json格式数据
 			type:'get',//HTTP请求类型
-			timeout:5000,//超时时间设置为5秒；
+			timeout:0,//超时时间设置为5秒；
 			success:function(data){
 				//服务器返回响应，根据响应结果，分析是否登录成功；
 				if(data.status == 'OK'){

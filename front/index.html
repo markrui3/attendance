@@ -21,12 +21,12 @@
 //	window.localStorage.setItem('position', "1");
 	
 	mui.init();
-	window.localStorage.setItem('root', "http://tjuattendance.sinaapp.com");
+	window.localStorage.setItem('root', "http://192.168.191.1:8080/att");
 
 	//初始化，并预加载webview模式的选项卡			
 	function preload () {
 		mui.preload({
-			id:'dash',
+			id:'dash.html',
 			url:'templates/dash.html',
 			styles: {
 				popGesture: 'hide'
