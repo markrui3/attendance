@@ -14,13 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import tju.att.base.BaseController;
+import tju.att.base.BaseHandlerController;
 import tju.att.domain.Attendance;
+import tju.att.domain.Check;
 import tju.att.domain.User;
 
 @Controller
 @RequestMapping("/att")
-public class AttendanceController extends BaseController {
+public class AttendanceController extends BaseHandlerController {
 
 	/**
 	 * 创建一个请假
@@ -69,7 +70,7 @@ public class AttendanceController extends BaseController {
 		//User user = (User)httpSession.getAttribute("user");
 		List<Attendance> list = attendanceManager.
 				getByDepartAndStatus(department, status);
-		map.put("attList", list);
+		map.put("attList", changeAttList(list));
 		return map;
 	}
 	
@@ -82,6 +83,12 @@ public class AttendanceController extends BaseController {
 	@RequestMapping("getAtt/{id}")
 	public Map<String, Object> getAtt(@PathVariable Long id) {
 		Map<String, Object> map = attendanceManager.getOneById(id);
+		List<Check> checkList = (List<Check>) map.get("checkList");
+		map.remove("checkList");
+		map.put("checkList", changeCheckList(checkList));
+		Attendance att = (Attendance) map.get("att");
+		map.remove("att");
+		map.put("att", getAttendanceObj(att));
 		return map;
 	}
 	
@@ -100,7 +107,7 @@ public class AttendanceController extends BaseController {
 		User user = (User)httpSession.getAttribute("user");
 		List<Attendance> list = attendanceManager.
 				getPassOrNot(user.getId(), status);
-		map.put("attList", list);
+		map.put("attList", changeAttList(list));
 		return map;
 	}
 	
@@ -137,7 +144,7 @@ public class AttendanceController extends BaseController {
 			List<Attendance> list2 = attendanceManager.getCheckedAtt(user.getId());
 			list.addAll(list2);
 		}
-		map.put("attList", list);
+		map.put("attList", changeAttList(list));
 		return map;
 	}
 	
@@ -153,7 +160,7 @@ public class AttendanceController extends BaseController {
 		}else{
 			list = null;
 		}
-		map.put("attList", list);
+		map.put("attList", changeAttList(list));
 		return map;
 	}
 

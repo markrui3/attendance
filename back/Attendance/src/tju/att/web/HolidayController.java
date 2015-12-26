@@ -1,6 +1,5 @@
 package tju.att.web;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,13 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import tju.att.base.BaseController;
+import tju.att.base.BaseHandlerController;
 import tju.att.domain.Holiday;
 import tju.att.domain.User;
 
 @Controller
 @RequestMapping("/holiday")
-public class HolidayController extends BaseController{
+public class HolidayController extends BaseHandlerController{
 	
 	/**
 	 * 获取所有的假期类型

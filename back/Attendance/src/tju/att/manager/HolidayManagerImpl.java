@@ -51,27 +51,27 @@ public class HolidayManagerImpl extends BaseInfo implements HolidayManager {
 		// 要返回的假期信息
 		List<Holiday> RList = new ArrayList<Holiday>();
 		for (int i = 0; i < hList.size(); i++) {
-			if (hList.get(i).getHolidayid().equals("4")) {
+			if (hList.get(i).getHolidayid().equals("5")) {
 				if (gender == 1) {
 					RList.add(hList.get(i)); // 女性加入产假
 				}
-			} else if (hList.get(i).getHolidayid().equals("5")) {
+			} else if (hList.get(i).getHolidayid().equals("6")) {
 				if (gender == 0) {
 					RList.add(hList.get(i)); // 男性加入陪产假
 				}
-			} else if (hList.get(i).getHolidayid().equals("2")) {
+			} else if (hList.get(i).getHolidayid().equals("3")) {
 				if (age <= 25) {
 					RList.add(hList.get(i)); // 短期婚假
 				}
-			} else if (hList.get(i).getHolidayid().equals("3")) {
+			} else if (hList.get(i).getHolidayid().equals("4")) {
 				if (age >= 25) {
 					RList.add(hList.get(i)); // 长期婚假
 				}
-			} else if (hList.get(i).getHolidayid().equals("6")) {
+			} else if (hList.get(i).getHolidayid().equals("7")) {
 				if (workAge < 10) {
 					RList.add(hList.get(i)); // 短年假
 				}
-			} else if (hList.get(i).getHolidayid().equals("7")) {
+			} else if (hList.get(i).getHolidayid().equals("8")) {
 				if (workAge >= 10) {
 					RList.add(hList.get(i)); // 长年假
 				}
@@ -80,10 +80,12 @@ public class HolidayManagerImpl extends BaseInfo implements HolidayManager {
 			}
 		}
 		//计算假期剩余时间
-		for(int index=0;index<lastList.size();index++){
-			Object[] temp = lastList.get(index);
-			System.out.println("temp[0]  ==  " + temp[0]);
-			for (int i = 0; i < RList.size(); i++){
+		for (int i = 0; i < RList.size(); i++){
+			Double remainday1 = Double.parseDouble(RList.get(i).getLastday());
+			RList.get(i).setRemainday(remainday1);
+			for(int index=0;index<lastList.size();index++){
+				Object[] temp = lastList.get(index);
+				System.out.println("temp[0]  ==  " + temp[0]);
 				if(Long.parseLong(temp[0].toString()) == RList.get(i).getId()){
 					Double remainday = Double.parseDouble(RList.get(i).getLastday())
 							-(Double)temp[1];
@@ -92,6 +94,19 @@ public class HolidayManagerImpl extends BaseInfo implements HolidayManager {
 				}
 			}
 		}
+		
+//		for(int index=0;index<lastList.size();index++){
+//			Object[] temp = lastList.get(index);
+//			System.out.println("temp[0]  ==  " + temp[0]);
+//			for (int i = 0; i < RList.size(); i++){
+//				if(Long.parseLong(temp[0].toString()) == RList.get(i).getId()){
+//					Double remainday = Double.parseDouble(RList.get(i).getLastday())
+//							-(Double)temp[1];
+//					RList.get(i).setRemainday(remainday);
+//					System.out.println("remainday  ==  " + remainday);
+//				}
+//			}
+//		}
 		map.put("RList", RList);
 		return map;
 	}
@@ -113,5 +128,10 @@ public class HolidayManagerImpl extends BaseInfo implements HolidayManager {
 				Integer.parseInt(date.substring(5, 7)) - 1,
 				Integer.parseInt(date.substring(8, 10)));
 		return cal;
+	}
+
+	@Override
+	public Holiday getById(Long id) {
+		return holidayDao.getById(id);
 	}
 }

@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import tju.att.base.BaseController;
+import tju.att.base.BaseHandlerController;
 import tju.att.domain.Sign;
 import tju.att.domain.User;
 
 @Controller
 @RequestMapping("/sign")
-public class SignController extends BaseController{
+public class SignController extends BaseHandlerController{
 
 	@ResponseBody
 	@RequestMapping(value="/addSign", method={RequestMethod.POST})
@@ -46,7 +46,7 @@ public class SignController extends BaseController{
 		if(user != null){
 			List<Sign> list = signManager.getMonth(dateStr,user.getId());
 			map.put("status", OK);
-			map.put("list", list);
+			map.put("list", changeSignList(list));
 		}else{
 			map.put("status", ERROR);
 			map.put("list", null);
@@ -64,7 +64,7 @@ public class SignController extends BaseController{
 		if(user != null){
 			Sign sign = signManager.get(signid);
 			map.put("status", OK);
-			map.put("sign", sign);
+			map.put("sign", getSignObj(sign));
 		}else{
 			map.put("status", ERROR);
 			map.put("sign", null);
@@ -81,7 +81,7 @@ public class SignController extends BaseController{
 		if(user != null){
 			Sign sign = signManager.getToday(user.getId());
 			map.put("status", OK);
-			map.put("sign", sign);
+			map.put("sign", getSignObj(sign));
 		}else{
 			map.put("status", ERROR);
 			map.put("sign", null);
