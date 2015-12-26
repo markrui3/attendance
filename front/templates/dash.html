@@ -73,6 +73,11 @@
 		//显示目标选项卡
 		//若为iOS平台或非首次显示，则直接显示
 		if(mui.os.ios||aniShow[targetTab]){
+			if(targetTab == "statistic/statistic.html"){
+				var currentWebview = plus.webview.getWebviewById(targetTab);
+				currentWebview.loadURL(targetTab);
+				currentWebview.show();
+			}
 			plus.webview.show(targetTab);
 		}else{
 			//否则，使用fade-in动画，且保存变量

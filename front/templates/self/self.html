@@ -100,10 +100,20 @@
 				//服务器返回响应，根据响应结果，分析是否登录成功；
 				if(data.status == 'OK'){
 					mui.toast('注销成功');
-					mui.openWindow({
-					    url:'../login.html',
-					    id:'login.html'
-					});
+					var curr = plus.webview.currentWebview(); 
+					var wvs = plus.webview.all(); 
+		
+					for(var i = 0, len = wvs.length; i < len; i++) { //关闭除setting页面外的其他页面
+						if(wvs[i].getURL() == curr.getURL()) 
+							continue; 
+						plus.webview.close(wvs[i]); 
+					} //打开login页面后再关闭setting页面
+					plus.webview.open('../login.html'); 
+//					mui.openWindow({
+//					    url:'../login.html',
+//					    id:'login.html'
+//					});
+					curr.close();
 				}else{
 					mui.toast('注销错误');
 				}
