@@ -15,6 +15,7 @@
     <script src="../../js/mui.min.js"></script>
 	<script src="../../js/mui.picker.js"></script>
 	<script src="../../js/mui.poppicker.js"></script>
+	<script src="../../js/utils.js"></script>
 </head>
 <body>
 <header class="mui-bar mui-bar-nav">
@@ -160,9 +161,6 @@
 					return;
 				}
 				var lastday = (new Date(endday).getTime()-new Date(startday).getTime())/(24 * 60 * 60 * 1000);
-				alert(startday);
-				alert(endday);
-				alert(lastday);
 				if(parseFloat(lastday) > parseFloat(remainday)){
 					mui.toast("您的假期余额不足，请重新选择请假区间");
 					return;
@@ -178,8 +176,8 @@
 				var data = {
 						"holidayid":holidayid,
 						"lastday":lastday,
-						"startday":startday,
-						"endday":endday,
+						"startday":new Date(startday).Format('yyyy-MM-dd'),
+						"endday":new Date(endday).Format('yyyy-MM-dd'),
 						"reason":reason
 				};
 				data = JSON.stringify(data);

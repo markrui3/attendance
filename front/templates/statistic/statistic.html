@@ -107,6 +107,7 @@
 				dataType:'json',//服务器返回json格式数据
 				type:'get',//HTTP请求类型
 				timeout:0,//超时时间设置为10秒；
+				crossDomain:true,
 				success:function(data){
 					//服务器返回响应，根据响应结果，分析是否登录成功；
 					if(data.attList != null && data.attList.length != 0){
@@ -134,7 +135,7 @@
 						});
 					}else{
 						document.getElementById(itemid).querySelector('.mui-scroll').innerHTML = "";
-						mui.toast('无数据');
+						mui.toast('无请假记录');
 					}
 				},
 				error:function(xhr,type,errorThrown){

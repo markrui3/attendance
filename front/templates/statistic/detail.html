@@ -77,16 +77,16 @@ mui.plusReady(function() {
 	var storage = window.localStorage;
 	var root = storage.getItem('root');
 	mui.ajax(root+"/att/getAtt/"+attendanceid, {
+		async: false,
 		dataType:'json',//服务器返回json格式数据
 		type:'get',//HTTP请求类型
 		timeout:0,//超时时间设置为10秒；
 		success:function(data){
 			if(data){
 				var att = data.att;
-				var user = data.userList[0];
 				var checkList = data.checkList;
-				document.getElementById("name").innerHTML = user.name;
-				document.getElementById("phone").innerHTML = user.phone;
+				document.getElementById("name").innerHTML = att.tempUsername;
+				document.getElementById("phone").innerHTML = att.phone;
 				document.getElementById("type").innerHTML = att.holidayName;
 				document.getElementById("applyday").innerHTML = att.attendance.applyday.substr(0, 10);
 				document.getElementById("startday").innerHTML = att.attendance.startday.substr(0, 10);

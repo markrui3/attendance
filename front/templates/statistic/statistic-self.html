@@ -81,15 +81,13 @@
 	</div>
 </div>
 <script>
-	var title = "我发起的";
-	mui.plusReady(function() {
-		var self = plus.webview.currentWebview();
-		title = self.title;
-		mui('.mui-title')[0].innerHTML = title;
-	});
-	
 	(function($) {
-		$.ready(function() {
+		var title = "我发起的";
+		mui.plusReady(function() {
+			var self = plus.webview.currentWebview();
+			title = self.title;
+			mui('.mui-title')[0].innerHTML = title;
+		
 			//加载第一个选项卡--待审核
 			createHtml("0", 'item1mobile');
 			
@@ -132,6 +130,7 @@
 				dataType:'json',//服务器返回json格式数据
 				type:'get',//HTTP请求类型
 				timeout:0,//超时时间设置为10秒；
+				async:false,
 				success:function(data){
 					//服务器返回响应，根据响应结果，分析是否登录成功；
 					if(data.attList != null && data.attList.length != 0){
@@ -139,8 +138,8 @@
 						var attList = data.attList;
 						for(var i = 0; i < attList.length; i++){
 							html += '<li class="mui-table-view-cell mui-media">'+
-								'<a class="mui-navigate-right" data-needcheck="1" data-attendanceid="'+attList[i].attendance.id;
-							if(title == "我处理的" && status == '0'){
+								'<a class="mui-navigate-right" data-attendanceid="'+attList[i].attendance.id+'"';
+							if(title == "我处理的" && parseInt(status) == 0){
 								html += ' data-needcheck="1">';
 							}else{
 								html += ' data-needcheck="0">';
@@ -154,27 +153,27 @@
 						document.getElementById(itemid).querySelector('.mui-scroll').innerHTML = html;
 						
 						mui('.mui-table-view').on('tap', 'a', function(e) {
-						if(this.dataset.needcheck == '1'){
-							mui.openWindow({
-							    url:'check.html',
-							    id:'check.html',
-							    extras:{
-							        attendanceid:this.dataset.attendanceid
-							    }
-							});
-						}else{
-							mui.openWindow({
-							    url:'detail.html',
-							    id:'detail.html',
-							    extras:{
-							        attendanceid:this.dataset.attendanceid
-							    }
-							});
-						}
-					});
+							if(this.dataset.needcheck == "1"){
+								mui.openWindow({
+								    url:'check.html',
+								    id:'check.html',
+								    extras:{
+								        attendanceid:this.dataset.attendanceid
+								    }
+								});
+							}else{
+								mui.openWindow({
+								    url:'detail.html',
+								    id:'detail.html',
+								    extras:{
+								        attendanceid:this.dataset.attendanceid
+								    }
+								});
+							}
+						});
 					}else{
 						document.getElementById(itemid).querySelector('.mui-scroll').innerHTML = "";
-						mui.toast('无数据');
+						mui.toast('无请假记录');
 					}
 				},
 				error:function(xhr,type,errorThrown){

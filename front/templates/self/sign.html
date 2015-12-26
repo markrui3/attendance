@@ -74,7 +74,7 @@
 			mui.init();
 			"use strict";
 			var options = {
-				events_source: 'events.json.php',
+				events_source: window.localStorage.getItem("root")+'/sign/getMonth/'+new Date().Format('yyyy-MM-dd'),
 				view: 'month',
 				tmpl_path: 'tmpls/',
 				tmpl_cache: false,

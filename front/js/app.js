@@ -12,103 +12,80 @@ app.controller('ctrl_homepage', function($scope, $http){
 	});
 	var storage = window.localStorage;
 	var root = storage.getItem("root");
-	$scope.comeMsg = "还未签到";
-	$scope.leaveMsg = "还未签退";
-	$http
-	.get(root+'/sign/getDay')
-	.success(function (response){
-		if(response.status == "OK"){
-			if(response.sign != null){
-				switch(response.sign.come){
-					case "0":
-						$scope.comeMsg = "还未签到";
-						break;
-					case "1":
-						$scope.comeMsg = "迟到签到";
-						break;
-					case "2":
-						$scope.comeMsg = "准时签到";
-						break;
-				}
-				switch(response.sign.leave){
-					case "0":
-						$scope.leaveMsg = "还未签退";
-						break;
-					case "1":
-						$scope.leaveMsg = "早退签退";
-						break;
-					case "2":
-						$scope.leaveMsg = "准时签退";
-						break;
-				}
-			}else{
-				$scope.comeMsg = "还未签到";
-				$scope.leaveMsg = "还未签退";
-			}
-		}else{
-			$scope.comeMsg = "还未签到";
-			$scope.leaveMsg = "还未签退";
-		}
-	});
+	getSign();
 	$scope.comeSign = function(){
 		$http
 		.post(root+'/sign/addSign')
 		.success(function (response){
-			alert(response);
-			mui.toast('开始');
-			$http
-			.get(root+'/sign/getDay')
-			.success(function (response){
-				if(response.status == "OK"){
-					if(response.sign != null){
-						mui.toast("成功签到");
-						switch(response.sign.come){
-							case "0":
-								$scope.comeMsg = "还未签到";
-								break;
-							case "1":
-								$scope.comeMsg = "迟到签到";
-								break;
-							case "2":
-								$scope.comeMsg = "准时签到";
-								break;
-						}
-					}else{
-						$scope.comeMsg = "还未签到";
-					}
-				}else{
-					$scope.comeMsg = "还未签到";
-				}
-			});
+			if(response.status == "OK"){
+				mui.toast("签到成功");
+				getSign();
+			}else{
+				mui.toast("签到失败");
+			}
 		});
 	};
 	$scope.leaveSign = function(){
 		$http
 		.post(root+'/sign/addSign')
 		.success(function (response){
-			alert(response);
 			if(response.status == "OK"){
-				if(response.sign != null){
-					mui.toast("成功签退");
-					switch(response.sign.leave){
-						case "0":
-							$scope.leaveMsg = "还未签退";
-							break;
-						case "1":
-							$scope.leaveMsg = "早退签退";
-							break;
-						case "2":
-							$scope.leaveMsg = "准时签退";
-							break;
-					}
-				}else{
-					$scope.leaveMsg = "还未签退";
-				}
+				mui.toast("签退成功");
+				getSign();
 			}else{
-				$scope.leaveMsg = "还未签退";
+				mui.toast("签到失败");
 			}
 		});
 	};
+	
+	function getSign(){
+		$http
+		.get(root+'/sign/getDay')
+		.success(function (response){
+			if(response.status == "OK"){
+				if(response.sign != null){
+					switch(response.sign.timecome){
+						case 0:
+							$scope.comeMsg = "还未签到";
+							$scope.comeSta = false;
+							break;
+						case 1:
+							$scope.comeMsg = "迟到签到";
+							$scope.comeSta = true;
+							break;
+						case 2:
+							$scope.comeMsg = "准时签到";
+							$scope.comeSta = true;
+							break;
+					}
+					switch(response.sign.timeleave){
+						case 0:
+							$scope.leaveMsg = "还未签退";
+							$scope.leaveSta = false;
+							break;
+						case 1:
+							$scope.leaveMsg = "早退签退";
+							$scope.leaveSta = true;
+							break;
+						case 2:
+							$scope.leaveMsg = "准时签退";
+							$scope.leaveSta = true;
+							break;
+					}
+				}else{
+					$scope.comeMsg = "还未签到";
+					$scope.comeSta = false;
+					$scope.leaveMsg = "还未签退";
+					$scope.leaveSta = false;
+				}
+			}else{
+				$scope.comeMsg = "还未签到";
+				$scope.comeSta = false;
+				$scope.leaveMsg = "还未签退";
+				$scope.leaveSta = false;
+			}
+		});
+	}
 });
 app.controller('ctrl_self', function($scope, $http){
 	$scope.name = window.localStorage.name;
