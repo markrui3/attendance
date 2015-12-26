@@ -114,11 +114,11 @@
 						var attList = data.attList;
 						for(var i = 0; i < attList.length; i++){
 							html += '<li class="mui-table-view-cell mui-media">'+
-								'<a class="mui-navigate-right" data-needcheck="1" data-attendanceid="'+attList[i].id+'">'+
+								'<a class="mui-navigate-right" data-needcheck="1" data-attendanceid="'+attList[i].attendance.id+'">'+
 									'<img class="mui-media-object mui-pull-left" src="../../images/user-photo.png">'+
 									'<div class="mui-media-body">'+attList[i].tempUsername+
-										'<p class="mui-ellipsis">'+attList[i].reason+'</p><p class="mui-ellipsis">'+
-										attList[i].startday.substr(0, 10)+'~'+attList[i].endday.substr(0, 10)+'</p></div></a></li>';
+										'<p class="mui-ellipsis">'+attList[i].holidayName+'</p><p class="mui-ellipsis">'+attList[i].attendance.reason+'</p><p class="mui-ellipsis">'+
+										attList[i].attendance.startday.substr(0, 10)+'~'+attList[i].attendance.endday.substr(0, 10)+'</p></div></a></li>';
 						}
 						html += '</ul>';
 						document.getElementById(itemid).querySelector('.mui-scroll').innerHTML = html;

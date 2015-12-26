@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2015-12-22 22:20:27
+Date: 2015-12-26 18:22:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -73,15 +73,15 @@ CREATE TABLE `holiday` (
 -- ----------------------------
 -- Records of holiday
 -- ----------------------------
-INSERT INTO `holiday` VALUES ('1', '0', '事假', '10000', '1', null);
-INSERT INTO `holiday` VALUES ('2', '1', '病假', '10000', '1', '9996');
-INSERT INTO `holiday` VALUES ('3', '2', '婚假1', '7', '0', null);
-INSERT INTO `holiday` VALUES ('4', '3', '婚假2', '10', '0', null);
-INSERT INTO `holiday` VALUES ('5', '4', '产假', '90', '0', null);
-INSERT INTO `holiday` VALUES ('6', '5', '陪产假', '7', '0', null);
-INSERT INTO `holiday` VALUES ('7', '6', '年假1', '10', '0', null);
-INSERT INTO `holiday` VALUES ('8', '7', '年假2', '15', '0', null);
-INSERT INTO `holiday` VALUES ('9', '8', '出差', '10000', '0', null);
+INSERT INTO `holiday` VALUES ('1', '1', '事假', '10000', '1', '10000');
+INSERT INTO `holiday` VALUES ('2', '2', '病假', '10000', '1', '10000');
+INSERT INTO `holiday` VALUES ('3', '3', '婚假1', '7', '0', '7');
+INSERT INTO `holiday` VALUES ('4', '4', '婚假2', '10', '0', null);
+INSERT INTO `holiday` VALUES ('5', '5', '产假', '90', '0', null);
+INSERT INTO `holiday` VALUES ('6', '6', '陪产假', '7', '0', '7');
+INSERT INTO `holiday` VALUES ('7', '7', '年假1', '10', '0', '10');
+INSERT INTO `holiday` VALUES ('8', '8', '年假2', '15', '0', null);
+INSERT INTO `holiday` VALUES ('9', '9', '出差', '10000', '0', '10000');
 
 -- ----------------------------
 -- Table structure for `sign`

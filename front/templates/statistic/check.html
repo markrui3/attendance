@@ -39,74 +39,33 @@
 <div class="mui-content">
 	<ul class="mui-table-view mui-table-view-chevron" >
 		<li class="mui-table-view-cell mui-media">
-			<img class="mui-media-object mui-pull-left head-img" id="head-img" src="../../favicon.ico">
+			<img class="mui-media-object mui-pull-left head-img" id="head-img" src="../../images/user-photo.png">
 			<div class="mui-media-body">
-				小明
-				<p class='mui-ellipsis'>账号:xiaoming</p>
+				<span id="name"></span>
+				<p class='mui-ellipsis'>账号:<span id="phone"></span></p>
 			</div>
 		</li>
 	
 	<li class="mui-table-view-cell mui-media">
-		<span class="fixed-word">请假类型</span><span id="type" class="ajax-word">病假</span>
+		<span class="fixed-word">请假类型</span><span id="type" class="ajax-word"></span>
 	</li>
 	<li class="mui-table-view-cell mui-media">
-		<span class="fixed-word">申请日期</span><span id="applyday" class="ajax-word">2015-12-12</span>
+		<span class="fixed-word">申请日期</span><span id="applyday" class="ajax-word"></span>
 	</li>
 	<li class="mui-table-view-cell mui-media">
-		<span class="fixed-word">开始日期</span><span id="startday" class="ajax-word">2015-12-17</span>
+		<span class="fixed-word">开始日期</span><span id="startday" class="ajax-word"></span>
 	</li>
 	<li class="mui-table-view-cell mui-media">
-		<span class="fixed-word">结束日期</span><span id="endday" class="ajax-word">2015-12-17</span>
+		<span class="fixed-word">结束日期</span><span id="endday" class="ajax-word"></span>
 	</li>
 	<li class="mui-table-view-cell mui-media">
-		<span class="fixed-word">请假原因</span><br><span id="reason" class="ajax-word" style="margin-left: 20px;">大家一起玩，让我们一起摇摆</span>
+		<span class="fixed-word">请假原因</span><br><span id="reason" class="ajax-word" style="margin-left: 20px;"></span>
 	</li>
 	</ul>
+	
+	<div id="checkList">
 
-	<ul class="mui-table-view">
-		<li class="mui-table-view-cell mui-collapse">
-			<a class="mui-navigate-right" href="#">一级审批意见</a>
-			<ul class="mui-table-view mui-table-view-chevron">
-				<li class="mui-table-view-cell mui-media">
-					<span class="fixed-word">审批人</span><span id="check_user" class="ajax-word">天猫君</span>
-				</li>
-				<li class="mui-table-view-cell mui-media">
-					<span class="fixed-word">审批结果</span><span id="check_result" class="ajax-word">通过</span>
-				</li>
-				<li class="mui-table-view-cell mui-media">
-					<span class="fixed-word">审批原因</span><br><span id="check_reason" class="ajax-word" style="margin-left: 20px;">大家一起玩，让我们一起摇摆，一起摇摆</span>
-				</li>
-			</ul>
-		</li>
-		<li class="mui-table-view-cell mui-collapse">
-			<a class="mui-navigate-right" href="#">二级审批意见</a>
-			<ul class="mui-table-view mui-table-view-chevron">
-				<li class="mui-table-view-cell mui-media">
-					<span class="fixed-word">审批人</span><span id="check_user" class="ajax-word">天猫君</span>
-				</li>
-				<li class="mui-table-view-cell mui-media">
-					<span class="fixed-word">审批结果</span><span id="check_result" class="ajax-word">通过</span>
-				</li>
-				<li class="mui-table-view-cell mui-media">
-					<span class="fixed-word">审批原因</span><br><span id="check_reason" class="ajax-word" style="margin-left: 20px;">大家一起玩，让我们一起摇摆，一起摇摆</span>
-				</li>
-			</ul>
-		</li>
-		<li class="mui-table-view-cell mui-collapse">
-			<a class="mui-navigate-right" href="#">三级审批意见</a>
-			<ul class="mui-table-view mui-table-view-chevron">
-				<li class="mui-table-view-cell mui-media">
-					<span class="fixed-word">审批人</span><span id="check_user" class="ajax-word">天猫君</span>
-				</li>
-				<li class="mui-table-view-cell mui-media">
-					<span class="fixed-word">审批结果</span><span id="check_result" class="ajax-word">通过</span>
-				</li>
-				<li class="mui-table-view-cell mui-media">
-					<span class="fixed-word">审批原因</span><br><span id="check_reason" class="ajax-word" style="margin-left: 20px;">大家一起玩，让我们一起摇摆，一起摇摆</span>
-				</li>
-			</ul>
-		</li>
-	</ul>
+	</div>
 	<ul class="mui-table-view mui-table-view-chevron">
 		<li class="mui-table-view-cell">
 			<span>是否同意请假</span>
@@ -124,10 +83,71 @@
 
 <script type="text/javascript">
 var checkresult = "0";
+var attendanceid = "";
 document.getElementById("checkresult").addEventListener('toggle', function(event) {
 	//event.detail.isActive 可直接获取当前状态
 	checkresult = (event.detail.isActive ? '1' : '0');
 });
+mui.plusReady(function() {
+	var self = plus.webview.currentWebview();
+	attendanceid = self.attendanceid;
+	var storage = window.localStorage;
+	var root = storage.getItem('root');
+	mui.ajax(root+"/att/getAtt/"+attendanceid, {
+		dataType:'json',//服务器返回json格式数据
+		type:'get',//HTTP请求类型
+		timeout:0,//超时时间设置为10秒；
+		success:function(data){
+			if(data){
+				var att = data.att;
+				var user = data.userList[0];
+				var checkList = data.checkList;
+				document.getElementById("name").innerHTML = user.name;
+				document.getElementById("phone").innerHTML = user.phone;
+				document.getElementById("type").innerHTML = att.holidayName;
+				document.getElementById("applyday").innerHTML = att.attendance.applyday.substr(0, 10);
+				document.getElementById("startday").innerHTML = att.attendance.startday.substr(0, 10);
+				document.getElementById("endday").innerHTML = att.attendance.endday.substr(0, 10);
+				document.getElementById("reason").innerHTML = att.attendance.reason;
+				var html = '<ul class="mui-table-view">';
+				var list = ["", "", ""];
+				for(var i = 0; i < checkList.length; i++){
+					var title = "", index = 0;
+					if(checkList[i].check.property == "1"){
+						title = "一级审批意见";
+						index = 0;
+					}else if(checkList[i].check.property == "2"){
+						title = "二级审批意见";
+						index = 1;
+					}else if(checkList[i].check.property == "3"){
+						title = "三级审批意见";
+						index = 2;
+					}
+					list[index] += '<li class="mui-table-view-cell mui-collapse">'+
+						'<a class="mui-navigate-right" href="#">'+title+'</a>'+
+						'<ul class="mui-table-view mui-table-view-chevron">'+
+							'<li class="mui-table-view-cell mui-media">'+
+								'<span class="fixed-word">审批人</span><span id="check_user" class="ajax-word">'+checkList[i].username+'</span></li>'+
+							'<li class="mui-table-view-cell mui-media">'+
+								'<span class="fixed-word">审批结果</span><span id="check_result" class="ajax-word">'+(checkList[i].checkresult=='0'?"不通过":"通过")+'</span></li>'+
+							'<li class="mui-table-view-cell mui-media">'+
+								'<span class="fixed-word">审批原因</span><br><span id="check_reason" class="ajax-word" style="margin-left: 20px;">'+checkList[i].check.reason+'</span>'+
+							'</li></ul></li>';
+				}
+				html += list[0]+list[1]+list[2];
+				html += '</ul>';
+				document.getElementById("checkList").innerHTML = html;
+			}else{
+				mui.toast('获取失败');
+			}
+		},
+		error:function(xhr,type,errorThrown){
+			//异常处理；
+			mui.toast('网络异常');
+		}
+	});
+});
+
 document.getElementById("submit").addEventListener("tap", function(){
 	var reason = document.getElementById("checkreason").value;
 	if(reason == ""){
@@ -136,10 +156,18 @@ document.getElementById("submit").addEventListener("tap", function(){
 	}
 	var storage = window.localStorage;
 	var root = storage.getItem('root');
-	mui.ajax(root+"../../js/data/"+checkresult+"/"+reason, {
+	var data = {
+			"attendanceid":attendanceid,
+			"checkresult":checkresult,
+			"reason":document.getElementById("checkreason").value
+	};
+	data = JSON.stringify(data);
+	mui.ajax(root+"/check/addCheck", {
+		data:data,
+		contentType:"application/json;charset=UTF-8",
 		dataType:'json',//服务器返回json格式数据
 		type:'post',//HTTP请求类型
-		timeout:5000,//超时时间设置为5秒；
+		timeout:0,//超时时间设置为5秒；
 		success:function(data){
 			//服务器返回响应，根据响应结果，分析是否登录成功；
 			if(data.status == 'OK'){

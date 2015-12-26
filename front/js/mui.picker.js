@@ -296,7 +296,7 @@
 		var buffer = [];
 		self.items.forEach(function(item) {
 			if (item !== null && item !== undefined) {
-				buffer.push('<li>' + (item.text || item) + '</li>');
+				buffer.push('<li>' + (item.holidayname || item) + '</li>');
 			}
 		});
 		self.list.innerHTML = buffer.join('');
