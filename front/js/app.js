@@ -98,6 +98,7 @@ app.controller('ctrl_setting', function($scope, $http){
 	$scope.email = window.localStorage.email;
 	$scope.gender = window.localStorage.gender == "0"? "男":"女";
 	$scope.startworkdate = window.localStorage.startworkdate;
+	$scope.birthday = window.localStorage.birthday;
 	$scope.department = window.localStorage.department;
 	switch(window.localStorage.position){
 		case "0":
