@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2015-12-26 18:22:20
+Date: 2015-12-27 13:44:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -94,11 +94,14 @@ CREATE TABLE `sign` (
   `timeleave` int(11) NOT NULL,
   `time` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sign
 -- ----------------------------
+INSERT INTO `sign` VALUES ('1', '3', '1', '1', '2001-11-11 00:00:00');
+INSERT INTO `sign` VALUES ('2', '3', '0', '2', '2015-12-26 12:00:00');
+INSERT INTO `sign` VALUES ('3', '2', '2', '0', '2015-12-27 12:00:00');
 
 -- ----------------------------
 -- Table structure for `user`
@@ -116,12 +119,13 @@ CREATE TABLE `user` (
   `startworkdate` date DEFAULT NULL,
   `email` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '13920742173', '技术部', 'dcj', '董春江', '0', '1991-06-24', '0', '2013-06-24', '');
+INSERT INTO `user` VALUES ('1', '13920742173', '技术部', 'dcj', '董春江', '0', '1991-06-24', '0', '2013-06-24', '111');
 INSERT INTO `user` VALUES ('2', '1234', '技术部', 'zr', '赵瑞', '0', '1993-12-11', '1', '2012-07-04', '');
 INSERT INTO `user` VALUES ('3', '1122', '技术部', 'dyq', '董一强', '0', '1993-04-06', '2', '2012-07-09', '');
 INSERT INTO `user` VALUES ('4', '2211', '技术部', 'xhl', '谢杭伦', '1', '1993-01-01', '3', '2011-06-06', '');
+INSERT INTO `user` VALUES ('5', 'admin', '技术部', 'admin', '超级管理员', '0', '2015-12-23', '10', '2015-12-23', 'admin@qq.com');
