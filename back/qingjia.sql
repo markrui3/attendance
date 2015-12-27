@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2015-12-27 13:44:40
+Date: 2015-12-27 18:19:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -119,7 +119,7 @@ CREATE TABLE `user` (
   `startworkdate` date DEFAULT NULL,
   `email` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
@@ -129,3 +129,4 @@ INSERT INTO `user` VALUES ('2', '1234', '技术部', 'zr', '赵瑞', '0', '1993-
 INSERT INTO `user` VALUES ('3', '1122', '技术部', 'dyq', '董一强', '0', '1993-04-06', '2', '2012-07-09', '');
 INSERT INTO `user` VALUES ('4', '2211', '技术部', 'xhl', '谢杭伦', '1', '1993-01-01', '3', '2011-06-06', '');
 INSERT INTO `user` VALUES ('5', 'admin', '技术部', 'admin', '超级管理员', '0', '2015-12-23', '10', '2015-12-23', 'admin@qq.com');
+INSERT INTO `user` VALUES ('6', '1', '技术部', '1', '1', '1', '2011-11-11', '1', '2011-11-11', 'qq');

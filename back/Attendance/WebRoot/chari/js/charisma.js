@@ -459,27 +459,17 @@ function docReady() {
 		$.confirm({
 			confirmButtonClass : 'btn-danger',
 			cancelButtonClass : 'btn-info',
-			confirmButton : '确定！',
-			cancelButton : '取消 ！',
+			confirmButton : '确定',
+			cancelButton : '取消',
 			content : "您确定要删除该员工吗？",
-			title : "您好！",
+			title : "删除员工",
 			confirm : function() {
-				$.confirm({
-					confirmButtonClass : 'btn-danger',
-					cancelButtonClass : 'btn-info',
-					confirmButton : '确定！',
-					cancelButton : '取消 ！',
-					content : "这不是在开玩笑，您真的要删除该员工吗？",
-					title : "请再次确认！",
-					confirm : function() {
-						$.ajax({
-							type : "get",
-							url : "../user/delete/" + data.id,
-							async : true,
-							success : function(result) {
-								window.location.reload();
-							}
-						});
+				$.ajax({
+					type : "get",
+					url : "../user/delete/" + data.id,
+					async : true,
+					success : function(result) {
+						window.location.reload();
 					}
 				});
 			}

@@ -59,9 +59,9 @@
 								<li><a class="ajax-link" href="table.html"><i
 									class="glyphicon glyphicon-align-justify"></i><span> 刷新</span></a></li>
 								<li><a class="ajax-link" href="javascript:add()"><i
-									class="glyphicon glyphicon-align-justify"></i><span>添加新员工 </span></a></li>
-									<li><a class="ajax-link" href="javascript:add()"><i
-									class="glyphicon glyphicon-align-justify"></i><span>批量添加员工 </span></a></li>
+									class="glyphicon glyphicon-align-justify"></i><span> 添加新员工 </span></a></li>
+									<li><a class="ajax-link" href="javascript:padd()"><i
+									class="glyphicon glyphicon-align-justify"></i><span> 批量添加员工 </span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -182,6 +182,33 @@
 			</div>
 			<!-- /.modal -->
 
+			<!-- 模态框（Modal） -->
+			<div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h4 class="modal-title" id="myModalLabel">批量添加|更新员工信息</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<label>文件:</label>
+								<input class="form-control" id="file" name="file" type="file" />
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">
+								关闭</button>
+							<button type="button" class="btn btn-primary" onclick="upload()" id="bt1">
+								确认上传</button>
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+				<!-- /.modal-dialog -->
+			</div>
+			<!-- /.modal -->
+
 			<footer class="row">
 				<p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; 2015年12月</p>
 
@@ -225,6 +252,7 @@
 		<script src="js/jquery-confirm.js"></script>
 		<script src="js/bootstrap-datetimepicker.min.js"></script>
     <script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="js/ajaxfileupload.js"></script>
 		<script>
 			$('#mybirthday').datetimepicker({
 				language:  'zh-CN',
@@ -238,6 +266,9 @@
 				minView:'2',
 				autoclose:true
 			});
+			function padd(){
+				$('#fileModal').modal('show');
+			}
 			function add() {
 				$('#bt2').show();
 				$('#bt1').hide();
@@ -295,6 +326,34 @@
 							}
 						});
 					}
+				});
+			}
+
+			function upload(){
+				$.ajaxFileUpload({
+					url:"../user/addFromExcel",
+					fileElementId:'file',
+					enctype:"multipart/form-data", 
+					contentType: "application/x-www-form-urlencoded; charset=utf-8",
+					type:"post",
+					dataType: 'text', //返回值类型 一般设置为json
+					done:function(){
+						window.location.reload();
+					},
+          success: function (data, status)  //服务器成功响应处理函数
+          {
+          	window.location.reload();
+          	console.log(data);
+              if(data.status="OK"){
+              	window.location.reload();
+              }
+          },
+          error: function (data, status, e)//服务器响应失败处理函数
+          {
+          	//window.location.reload();
+          	console.log(data, status, e);
+            alert("失败，请重试");
+          }
 				});
 			}
 		</script>
