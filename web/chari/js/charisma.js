@@ -424,6 +424,8 @@ function docReady() {
 		$('#mybirthday').val(data.birthday);
 		$('#mypwd').val(data.pwd);
 		$('#myid').val(data.id);
+		$('#bt2').hide();
+		$('#bt1').show();
 		$('#myModal').modal('show');
 	}
 
