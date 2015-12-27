@@ -14,4 +14,6 @@ public interface UserDao extends BaseDao<User>{
 	public User findByPhone(String phone);
 	//获取一个部门的员工
 	public List<User> findByDep(String department);
+	//获取 除超级管理员之外的用户
+	public List<User> getUserList();
 }

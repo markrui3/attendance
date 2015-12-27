@@ -50,38 +50,17 @@ public class AttendanceManagerImpl extends BaseInfo implements
 		for(int i=0;i<userList.size();i++){
 			ids[i] = userList.get(i).getId();
 		}
-		List<Attendance> list = attendanceDao.getByIdsAndStatus(ids, status);
-		List<Attendance> returnList = new ArrayList<Attendance>();
-		for(int i=0;i<list.size();i++){
-			Attendance attendance = list.get(i);
-			attendance.setTempUsername(userDao.getById(attendance.getUserid()).getName());
-			returnList.add(attendance);
-		}
-		return returnList;
+		return attendanceDao.getByIdsAndStatus(ids, status);
 	}
 
 	@Override
 	public List<Attendance> getByUseridAndStatus(Long userid, String status) {
-		List<Attendance> list = attendanceDao.getByUseridAndStatus(userid, status);
-		List<Attendance> returnList = new ArrayList<Attendance>();
-		for(int i=0;i<list.size();i++){
-			Attendance attendance = list.get(i);
-			attendance.setTempUsername(userDao.getById(attendance.getUserid()).getName());
-			returnList.add(attendance);
-		}
-		return returnList;
+		return attendanceDao.getByUseridAndStatus(userid, status);
 	}
 
 	@Override
 	public List<Attendance> getByStatus(String status) {
-		List<Attendance> list = attendanceDao.getByStatus(status);
-		List<Attendance> returnList = new ArrayList<Attendance>();
-		for(int i=0;i<list.size();i++){
-			Attendance attendance = list.get(i);
-			attendance.setTempUsername(userDao.getById(attendance.getUserid()).getName());
-			returnList.add(attendance);
-		}
-		return returnList;
+		return attendanceDao.getByStatus(status);
 	}
 
 	@Override
@@ -114,14 +93,7 @@ public class AttendanceManagerImpl extends BaseInfo implements
 
 	@Override
 	public List<Attendance> getPassOrNot(Long userid, String status) {
-		List<Attendance> list = attendanceDao.getPassOrNot(userid, status);
-		List<Attendance> returnList = new ArrayList<Attendance>();
-		for(int i=0;i<list.size();i++){
-			Attendance attendance = list.get(i);
-			attendance.setTempUsername(userDao.getById(attendance.getUserid()).getName());
-			returnList.add(attendance);
-		}
-		return returnList;
+		return attendanceDao.getPassOrNot(userid, status);
 	}
 
 	@Override
@@ -137,17 +109,15 @@ public class AttendanceManagerImpl extends BaseInfo implements
 		}
 		map.put("att", attendance);
 		map.put("checkList", checkList);
-		map.put("userList", userList);
 		return map;
 	}
 
 	@Override
 	public List<Attendance> getCheckedAtt(Long userid) {
-		List<Object[]> list = attendanceDao.getCheckedAtt(userid);
+		List<Object[]> list = attendanceDao.getCheckedAtt(userid);;
 		List<Attendance> returnList = new ArrayList<Attendance>();
 		for(int i=0;i<list.size();i++){
 			Attendance attendance = (Attendance)list.get(i)[0];
-			attendance.setTempUsername(userDao.getById(attendance.getUserid()).getName());
 			returnList.add(attendance);
 		}
 		return returnList;
@@ -155,14 +125,7 @@ public class AttendanceManagerImpl extends BaseInfo implements
 
 	@Override
 	public List<Attendance> getByStatusList(String status) {
-		List<Attendance> list = attendanceDao.getByStatusList(status);
-		List<Attendance> returnList = new ArrayList<Attendance>();
-		for(int i=0;i<list.size();i++){
-			Attendance attendance = list.get(i);
-			attendance.setTempUsername(userDao.getById(attendance.getUserid()).getName());
-			returnList.add(attendance);
-		}
-		return returnList;
+		return attendanceDao.getByStatusList(status);
 	}
 
 }

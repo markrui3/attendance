@@ -52,4 +52,12 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao{
 		return q.list();
 	}
 
+	@Override
+	public List<User> getUserList() {
+		String sql = "FROM User u WHERE u.position <> ?";
+		return getSession().createQuery(sql)
+				.setParameter(0, "10")
+				.list();
+	}
+
 }

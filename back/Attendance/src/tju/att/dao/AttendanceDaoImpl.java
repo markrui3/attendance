@@ -40,7 +40,7 @@ public class AttendanceDaoImpl extends BaseDaoImpl<Attendance> implements Attend
 	@Override
 	public List<Attendance> getPassOrNot(Long userid, String status) {
 		String statusArray[] = new String[7];
-		if(status.equals("0")){
+		if(status.equals("1")){
 			//11 12 13 3
 			statusArray[0] = "11";
 			statusArray[1] = "12";
@@ -49,7 +49,7 @@ public class AttendanceDaoImpl extends BaseDaoImpl<Attendance> implements Attend
 			statusArray[4] = "3";
 			statusArray[5] = "3";
 			statusArray[6] = "3";
-		}else if(status.equals("1")){
+		}else if(status.equals("0")){
 			//0 21 22
 			statusArray[0] = "0";
 			statusArray[1] = "21";
@@ -87,7 +87,7 @@ public class AttendanceDaoImpl extends BaseDaoImpl<Attendance> implements Attend
 	@Override
 	public List<Attendance> getByStatusList(String status) {
 		String statusArray[] = new String[7];
-		if(status.equals("0")){
+		if(status.equals("1")){
 			//11 12 13 3
 			statusArray[0] = "11";
 			statusArray[1] = "12";
@@ -96,7 +96,7 @@ public class AttendanceDaoImpl extends BaseDaoImpl<Attendance> implements Attend
 			statusArray[4] = "3";
 			statusArray[5] = "3";
 			statusArray[6] = "3";
-		}else if(status.equals("1")){
+		}else if(status.equals("0")){
 			//0 21 22
 			statusArray[0] = "0";
 			statusArray[1] = "21";

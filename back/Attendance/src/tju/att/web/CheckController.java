@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import tju.att.base.BaseController;
+import tju.att.base.BaseHandlerController;
 import tju.att.domain.Check;
 import tju.att.domain.User;
 
 @Controller
 @RequestMapping("/check")
-public class CheckController extends BaseController{
+public class CheckController extends BaseHandlerController{
 	
 	/**
 	 * 接受参数 check.attendanceid | check.reason | check.checkresult   

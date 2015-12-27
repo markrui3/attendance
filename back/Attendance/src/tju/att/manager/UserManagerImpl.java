@@ -50,7 +50,7 @@ public class UserManagerImpl extends BaseInfo implements UserManager{
 
 	@Override
 	public List<User> getAll() {
-		return this.userDao.findAll();
+		return this.userDao.getUserList();
 	}
 
 	@Override

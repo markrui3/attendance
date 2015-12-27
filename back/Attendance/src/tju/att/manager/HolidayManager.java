@@ -19,4 +19,11 @@ public interface HolidayManager {
 	 * @return
 	 */
 	public Map<String, Object> getOnePer(User user);
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Holiday getById(Long id);
 }

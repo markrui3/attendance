@@ -3,6 +3,7 @@ package tju.att.manager;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +25,24 @@ public class SignManagerImpl extends BaseInfo implements SignManager{
 	@Override
 	public boolean add(Long userid) {
 		Sign sign = new Sign();
-		sign.setId(userid);
+		sign.setUserid(userid);
+		try{
+			Date dateNow = new Date();
+			if(dateNow.getTime() > getDateTime(8).getTime()){
+				sign.setTimecome(COMENOTTIME);
+			}else{
+				sign.setTimecome(COMEONTIME);
+			}
+			sign.setTimeleave(COMENO);
+			sign.setTime(new Timestamp(getDateTime(12).getTime()));
+			signDao.save(sign);
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		/*
+		
 		try {
 			Date dateNow = new Date();
 			if(dateNow.getTime() < getDateTime(12).getTime()){
@@ -34,7 +52,7 @@ public class SignManagerImpl extends BaseInfo implements SignManager{
 					sign.setTimecome(COMEONTIME);
 				}
 				sign.setTimeleave(COMENO);
-				sign.setTime((Timestamp)getDateTime(12));
+				sign.setTime(new Timestamp(getDateTime(12).getTime()));
 				signDao.save(sign);
 			}else if(dateNow.getTime() >= getDateTime(12).getTime()){
 				List<Sign> list = signDao.getByDate(getDateTime(0), getDateTime(24),userid);
@@ -45,7 +63,7 @@ public class SignManagerImpl extends BaseInfo implements SignManager{
 						sign.setTimeleave(COMEONTIME);
 					}
 					sign.setTimecome(COMENO);
-					sign.setTime((Timestamp)getDateTime(12));
+					sign.setTime(new Timestamp(getDateTime(12).getTime()));
 					signDao.save(sign);
 				}else{
 					Sign signToday = list.get(0);
@@ -61,16 +79,36 @@ public class SignManagerImpl extends BaseInfo implements SignManager{
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
-		}
+		}*/
 	}
 
+
+	@Override
+	public boolean update(Long userid) {
+		Date dateNow = new Date();
+		try {
+			List<Sign> list = signDao.getByDate(getDateTime(0), getDateTime(24),userid);
+			Sign signToday = list.get(0);
+			if(dateNow.getTime() < getDateTime(18).getTime()){
+				signToday.setTimeleave(COMENOTTIME);
+			}else{
+				signToday.setTimeleave(COMEONTIME);
+			}
+			signDao.update(signToday);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	@Override
 	public Sign get(Long signid) {
 		return signDao.getById(signid);
 	}
 
 	@Override
-	public List<Sign> getMonth(String dateStr,Long userid) {
+	public List<Sign> getMonth(String dateStr,Long userid)throws Exception{
 		return signDao.getByDate(getDateMonth(dateStr, 1), getDateMonth(dateStr, 0),userid);
 	}
 	
@@ -112,7 +150,9 @@ public class SignManagerImpl extends BaseInfo implements SignManager{
 		if(list.size() != 0){
 			return list.get(0);
 		}else{
+			System.out.println("没有获取到信息");
 			return null;
 		}
 	}
+
 }
