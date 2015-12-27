@@ -81,18 +81,15 @@
 	</div>
 </div>
 <script>
-	mui.plusReady(function() {
-		var self = plus.webview.currentWebview();
-		var title = self.title;
-		mui('.mui-title')[0].innerHTML = title;
-	});
-	
-	var storage = window.localStorage;
-	
 	(function($) {
-		$.ready(function() {
+		var title = "我发起的";
+		mui.plusReady(function() {
+			var self = plus.webview.currentWebview();
+			title = self.title;
+			mui('.mui-title')[0].innerHTML = title;
+		
 			//加载第一个选项卡--待审核
-			createHtml("att.json", 'item1mobile');
+			createHtml("0", 'item1mobile');
 			
 			//循环初始化所有下拉刷新，上拉加载。
 			$.each(document.querySelectorAll('.mui-slider-group .mui-scroll-wrapper'), function(index, pullRefreshEl) {
@@ -102,9 +99,9 @@
 						callback: function() {
 							
 							setTimeout(function() {
-								createHtml("att1.json", "item"+(index+1)+"mobile");
+								createHtml(index, "item"+(index+1)+"mobile");
 								$("#scroll"+(index+1)).pullRefresh().endPulldownToRefresh();
-							}, 1000);
+							}, 5000);
 						}
 					},
 					up: {
@@ -112,9 +109,9 @@
 						callback: function() {
 							
 							setTimeout(function() {
-								createHtml("att1.json", "item"+(index+1)+"mobile");
+								createHtml(index, "item"+(index+1)+"mobile");
 								$("#scroll"+(index+1)).pullRefresh().endPullupToRefresh(false);
-							}, 1000);
+							}, 5000);
 						}
 					}
 				});
@@ -124,51 +121,64 @@
 		//按状态查询服务器数据
 		var storage = window.localStorage;
 		var root = storage.getItem('root');
-		var createHtml = function(url, itemid){
-			mui.ajax("../../js/data/"+url, {
+		var createHtml = function(status, itemid){
+			var url = root+"/att/getMeSat/"+status;
+			if(title == "我处理的"){
+				url = root+"/att/getWaitCheck/"+status;
+			}
+			mui.ajax(url, {
 				dataType:'json',//服务器返回json格式数据
 				type:'get',//HTTP请求类型
-				timeout:5000,//超时时间设置为10秒；
+				timeout:0,//超时时间设置为10秒；
+				async:false,
 				success:function(data){
 					//服务器返回响应，根据响应结果，分析是否登录成功；
-					if(data.status == 'OK'){
+					if(data.attList != null && data.attList.length != 0){
 						var html = '<ul class="mui-table-view">';
-						for(var i = 0; i < data.attendances.length; i++){
+						var attList = data.attList;
+						for(var i = 0; i < attList.length; i++){
 							html += '<li class="mui-table-view-cell mui-media">'+
-								'<a class="mui-navigate-right" data-needcheck="0" data-attendanceid="'+data.attendances[i].id+'">'+
-									'<img class="mui-media-object mui-pull-left" src="../../images/user-photo.png">'+
-									'<div class="mui-media-body">'+data.attendances[i].username+
-										'<p class="mui-ellipsis">'+data.attendances[i].reason+'</p><p class="mui-ellipsis">'+
-										data.attendances[i].startday.substr(0, 10)+'~'+data.attendances[i].endday.substr(0, 10)+'</p></div></a></li>';
+								'<a class="mui-navigate-right" data-attendanceid="'+attList[i].attendance.id+'"';
+							if(title == "我处理的" && parseInt(status) == 0){
+								html += ' data-needcheck="1">';
+							}else{
+								html += ' data-needcheck="0">';
+							}
+							html +=	'<img class="mui-media-object mui-pull-left" src="../../images/user-photo.png">'+
+								'<div class="mui-media-body">'+attList[i].tempUsername+
+									'<p class="mui-ellipsis">'+attList[i].holidayName+'</p><p class="mui-ellipsis">'+attList[i].attendance.reason+'</p><p class="mui-ellipsis">'+
+									attList[i].attendance.startday.substr(0, 10)+'~'+attList[i].attendance.endday.substr(0, 10)+'</p></div></a></li>';
 						}
 						html += '</ul>';
 						document.getElementById(itemid).querySelector('.mui-scroll').innerHTML = html;
 						
 						mui('.mui-table-view').on('tap', 'a', function(e) {
-						if(this.dataset.needcheck == '0'){
-							mui.openWindow({
-							    url:'detail.html',
-							    id:'detail.html',
-							    extras:{
-							        attendanceid:this.dataset.attendanceid
-							    }
-							});
-						}else{
-							mui.openWindow({
-							    url:'check.html',
-							    id:'check.html',
-							    extras:{
-							        attendanceid:'1'
-							    }
-							});
-						}
-					});
+							if(this.dataset.needcheck == "1"){
+								mui.openWindow({
+								    url:'check.html',
+								    id:'check.html',
+								    extras:{
+								        attendanceid:this.dataset.attendanceid
+								    }
+								});
+							}else{
+								mui.openWindow({
+								    url:'detail.html',
+								    id:'detail.html',
+								    extras:{
+								        attendanceid:this.dataset.attendanceid
+								    }
+								});
+							}
+						});
 					}else{
-						mui.toast('获取失败');
+						document.getElementById(itemid).querySelector('.mui-scroll').innerHTML = "";
+						mui.toast('无请假记录');
 					}
 				},
 				error:function(xhr,type,errorThrown){
 					//异常处理；
+					console.log(xhr, type, errorThrown);
 					mui.toast('网络异常');
 				}
 			});
@@ -178,8 +188,12 @@
 			indicators: true //是否显示滚动条
 		});
 
+		var slider = new Array(0, 0, 0);
 		document.getElementById('slider').addEventListener('slide', function(e) {
-			createHtml("att.json", "item"+(e.detail.slideNumber+1)+"mobile");
+			if(slider[e.detail.slideNumber] == 0){
+				createHtml(e.detail.slideNumber, "item"+(e.detail.slideNumber+1)+"mobile");
+				slider[e.detail.slideNumber]++;
+			}
 		});
 
 	})(mui);

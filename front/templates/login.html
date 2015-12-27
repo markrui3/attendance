@@ -129,20 +129,13 @@
 							storage.setItem('gender', data.user.gender);
 							storage.setItem('pwd', data.user.pwd);
 							storage.setItem('phone', data.user.phone);
-							mui.plusReady(function() {
-								//延迟的原因：优先打开启动导航页面，避免资源争夺
-								setTimeout(function () {
-									//预加载
-									preload();
-								},200);
-								
-								mui.openWindow({
-									url:'dash.html',
-									id:'dash.html',
-									createNew:false,
-								});
-								mui.toast('登录成功');
+							mui.openWindow({
+								url:'../index.html',
+								id:'index.html',
+								createNew:true,
 							});
+							mui.toast('登录成功');
+
 						}else{
 							mui.toast('用户名或密码错误');
 						}
@@ -154,16 +147,6 @@
 					}
 				});
 			});
-			//初始化，并预加载webview模式的选项卡			
-			function preload () {
-				mui.preload({
-					id:'dash',
-					url:'templates/dash.html',
-					styles: {
-						popGesture: 'hide'
-					}
-				});
-			}
 	
 			document.getElementById('reg').addEventListener('tap', function() {
 				mui.openWindow({

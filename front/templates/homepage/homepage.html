@@ -34,17 +34,16 @@
 		</li>
 		<li class="mui-table-view-cell">
 			<h5>上班时间</h5>
-			<p><span style="font-size:20px">08:00</span> <span style="position:absolute;top:35%;font-size:30px;padding-left:50px;" ng-model="comeMsg">还未签到</span></p>
-			<button class="mui-btn mui-btn-primary" ng-click="comeSign()">签到</button>
+			<p><span style="font-size:20px">08:00</span> <span style="position:absolute;top:35%;font-size:30px;padding-left:50px;">{{comeMsg}}</span></p>
+			<button class="mui-btn mui-btn-primary" ng-click="comeSign()" ng-disabled="comeSta" ng-model="comeSta">签到</button>
 		</li>
 		<li class="mui-table-view-cell">
 			<h5>下班时间</h5>
-			<p><span style="font-size:20px">18:00</span> <span style="position:absolute;top:35%;font-size:30px;padding-left:50px;" ng-model="leaveMsg">还未签到</span></p>
-			<button class="mui-btn mui-btn-primary" ng-click="leaveSign()">签到</button>
+			<p><span style="font-size:20px">18:00</span> <span style="position:absolute;top:35%;font-size:30px;padding-left:50px;">{{leaveMsg}}</span></p>
+			<button class="mui-btn mui-btn-primary" ng-click="leaveSign()" ng-disabled="leaveSta" ng-model="leaveSta">签退</button>
 		</li>
 	</ul>
 	<script type="text/javascript">
-		
 	</script>
 </body>
 </html>

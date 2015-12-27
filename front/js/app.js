@@ -10,19 +10,82 @@ app.controller('ctrl_homepage', function($scope, $http){
 		$scope.pm25 = response.results[0].pm25;
 		$scope.des = response.results[0].index[0].des;
 	});
-	$http
-	.get('http://api.map.baidu.com/telematics/v3/weather?location=%E5%A4%A9%E6%B4%A5&output=json&ak=A070e14d4e685d26358a908a3c896567')
-	.success(function (response){
-		$scope.temperature = response.results[0].weather_data[0].temperature;
-		$scope.pm25 = response.results[0].pm25;
-		$scope.des = response.results[0].index[0].des;
-	});
+	var storage = window.localStorage;
+	var root = storage.getItem("root");
+	getSign();
 	$scope.comeSign = function(){
-		mui.toast('开始');
+		$http
+		.post(root+'/sign/addSign')
+		.success(function (response){
+			if(response.status == "OK"){
+				mui.toast("签到成功");
+				getSign();
+			}else{
+				mui.toast("签到失败");
+			}
+		});
 	};
 	$scope.leaveSign = function(){
-		mui.toast('结束');
+		$http
+		.post(root+'/sign/addSign')
+		.success(function (response){
+			if(response.status == "OK"){
+				mui.toast("签退成功");
+				getSign();
+			}else{
+				mui.toast("签到失败");
+			}
+		});
 	};
+	
+	function getSign(){
+		$http
+		.get(root+'/sign/getDay')
+		.success(function (response){
+			if(response.status == "OK"){
+				if(response.sign != null){
+					switch(response.sign.timecome){
+						case 0:
+							$scope.comeMsg = "还未签到";
+							$scope.comeSta = false;
+							break;
+						case 1:
+							$scope.comeMsg = "迟到签到";
+							$scope.comeSta = true;
+							break;
+						case 2:
+							$scope.comeMsg = "准时签到";
+							$scope.comeSta = true;
+							break;
+					}
+					switch(response.sign.timeleave){
+						case 0:
+							$scope.leaveMsg = "还未签退";
+							$scope.leaveSta = false;
+							break;
+						case 1:
+							$scope.leaveMsg = "早退签退";
+							$scope.leaveSta = true;
+							break;
+						case 2:
+							$scope.leaveMsg = "准时签退";
+							$scope.leaveSta = true;
+							break;
+					}
+				}else{
+					$scope.comeMsg = "还未签到";
+					$scope.comeSta = false;
+					$scope.leaveMsg = "还未签退";
+					$scope.leaveSta = false;
+				}
+			}else{
+				$scope.comeMsg = "还未签到";
+				$scope.comeSta = false;
+				$scope.leaveMsg = "还未签退";
+				$scope.leaveSta = false;
+			}
+		});
+	}
 });
 app.controller('ctrl_self', function($scope, $http){
 	$scope.name = window.localStorage.name;

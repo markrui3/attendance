@@ -908,7 +908,7 @@ if(!String.prototype.formatNum) {
 							params.browser_timezone = browser_timezone;
 						}
 						$.ajax({
-							url: buildEventsUrl(source, params),
+							url: source,
 							dataType: 'json',
 							type: 'GET',
 							async: false
@@ -919,6 +919,7 @@ if(!String.prototype.formatNum) {
 								});
 								//$.error(json.error);
 							}
+							
 							if(json.list) {
 								events = json.list;
 							}
