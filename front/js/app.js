@@ -27,7 +27,7 @@ app.controller('ctrl_homepage', function($scope, $http){
 	};
 	$scope.leaveSign = function(){
 		$http
-		.post(root+'/sign/addSign')
+		.post(root+'/sign/updateSign')
 		.success(function (response){
 			if(response.status == "OK"){
 				mui.toast("签退成功");
@@ -76,13 +76,13 @@ app.controller('ctrl_homepage', function($scope, $http){
 					$scope.comeMsg = "还未签到";
 					$scope.comeSta = false;
 					$scope.leaveMsg = "还未签退";
-					$scope.leaveSta = false;
+					$scope.leaveSta = true;
 				}
 			}else{
 				$scope.comeMsg = "还未签到";
 				$scope.comeSta = false;
 				$scope.leaveMsg = "还未签退";
-				$scope.leaveSta = false;
+				$scope.leaveSta = true;
 			}
 		});
 	}
@@ -98,6 +98,7 @@ app.controller('ctrl_setting', function($scope, $http){
 	$scope.email = window.localStorage.email;
 	$scope.gender = window.localStorage.gender == "0"? "男":"女";
 	$scope.startworkdate = window.localStorage.startworkdate;
+	$scope.birthday = window.localStorage.birthday;
 	$scope.department = window.localStorage.department;
 	switch(window.localStorage.position){
 		case "0":
