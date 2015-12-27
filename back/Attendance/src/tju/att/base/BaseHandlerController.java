@@ -1,9 +1,13 @@
 package tju.att.base;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.HttpSession;
 
 import tju.att.domain.Attendance;
 import tju.att.domain.Check;
@@ -69,4 +73,16 @@ public class BaseHandlerController extends BaseController{
 		return obj;
 	}
 
+	protected String saveUploadFile(File upload,HttpSession httpSession) {
+		SimpleDateFormat sdf = new SimpleDateFormat("/yyyy/MM/dd/");
+		String basePath = httpSession.getServletContext().getRealPath("/WEB-INF/upload_files");
+		String subPath = sdf.format(new Date());
+		File dir = new File(basePath + subPath);
+		if (!dir.exists()) {
+			dir.mkdirs(); 
+		}
+		String path = basePath + subPath + UUID.randomUUID().toString();
+		upload.renameTo(new File(path)); 
+		return path;
+	}
 }

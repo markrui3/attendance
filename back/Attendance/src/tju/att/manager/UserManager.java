@@ -21,4 +21,7 @@ public interface UserManager{
 	public boolean updateUser(User user);
 	//
 	public boolean delete(Long id);
+
+	//¥¶¿Ìexcel
+	public boolean readXls(String path)throws Exception;
 }
