@@ -350,10 +350,22 @@ function docReady() {
 	var table = $('#example')
 			.DataTable(
 					{
-						"sDom" : "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-12'i><'col-md-12 center-block'p>>",
+						"sDom" : "<'row'<'col-md-8'l><'col-md-4'f>>rt<'row'<'col-md-4'i><'col-md-6'p>>",
 						"sPaginationType" : "bootstrap",
 						"oLanguage" : {
-							"sLengthMenu" : "_MENU_ records per page"
+							"sLengthMenu": "每页显示 _MENU_ 条记录",
+              "sZeroRecords": "抱歉， 没有找到",
+              "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+              "sInfoEmpty": "没有数据",
+              "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+              "sZeroRecords": "没有检索到数据",
+               "sSearch": "搜索: &nbsp",
+              "oPaginate": {
+                "sFirst": "首页",
+                "sPrevious": "前一页",
+                "sNext": "后一页",
+                "sLast": "尾页"
+              }
 						},
 						"bProcessing" : true,
 						"ajax" : {
@@ -384,7 +396,7 @@ function docReady() {
 						"aoColumnDefs" : [
 								{
 									"mRender" : function(data, type, row) {
-										var dyq = '<Button name="update" class="btn btn-success"><i class="glyphicon glyphicon-zoom-in icon-white"></i>更新</Button><Button name="delete" class="btn btn-danger" href="#"> <i class = "glyphicon glyphicon-trash icon-white" > </i>删除</Button>'
+										var dyq = '<Button name="update" class="btn btn-success"><i class="glyphicon glyphicon-zoom-in icon-white"></i>更新</Button>&nbsp;&nbsp;&nbsp;<Button name="delete" class="btn btn-danger" href="#"> <i class = "glyphicon glyphicon-trash icon-white" > </i>删除</Button>'
 										return dyq;
 									},
 									"aTargets" : [ 9 ]
@@ -398,7 +410,21 @@ function docReady() {
 
 									},
 									"aTargets" : [ 2 ]
-								} ]
+								} , {
+									"mRender" : function(data, type, row) {
+										if (data == "0") {
+											return "员工";
+										} else if(data == "1"){
+											return "部门经理";
+										}else if(data == "2"){
+											return "副总经理";
+										}else if(data == "3"){
+											return "总经理";
+										}
+
+									},
+									"aTargets" : [ 6 ]
+								}]
 					});
 
 	$('#example tbody').on('click', 'button', function() {
@@ -424,6 +450,8 @@ function docReady() {
 		$('#mybirthday').val(data.birthday);
 		$('#mypwd').val(data.pwd);
 		$('#myid').val(data.id);
+		$('#bt2').hide();
+		$('#bt1').show();
 		$('#myModal').modal('show');
 	}
 
