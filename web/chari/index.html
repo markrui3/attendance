@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>考勤系统后台管理</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css">
+		<link href="css/signin.css" rel="stylesheet">
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+		<style type="text/css">
+			.navbar-brand {
+				color: #FFFFFF;
+			}
+			
+			#hed {
+				background-color: #044A8F;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="navbar navbar-default" role="navigation">
+			<div class="container" id="navcontainer">
+				<nav class="navbar navbar-inverse navbar-fixed-top " role="navigation" id="hed">
+					<div class="container">
+						<div class="navbar-header">
+							<div class="navbar-brand">考勤系统后台管理</div>
+						</div>
+						<form class="navbar-form navbar-right" role="search">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="Search">
+							</div>
+							<button type="submit" class="btn btn-default">搜索</button>
+						</form>
+					</div>
+				</nav>
+			</div>
+		</div>
+		<div class="signin">
+			<div class="signin-head">
+				<img src="images/test/head_120.png" alt="" class="img-circle">
+			</div>
+			<div class="form-signin" role="form">
+				<input id="username" type="text" class="form-control" placeholder="用户名" required autofocus />
+				<input id="password" type="password" class="form-control" placeholder="密码" required />
+				<button id="login" class="btn btn-lg btn-warning btn-block" type="submit">登录</button>
+				<label class="checkbox">
+					<input type="checkbox" value="remember-me"> 记住我
+				</label>
+				<div class="alert alert-warning" hidden="hidden" id="alrt">
+					用户名密码输入错误
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('#login').click(function() {
+					var username = $('#username');
+					var password = $('#password');
+					$.ajax({
+						type: "get",
+						url: "../user/login/" + username.val() + "/" + password.val(),
+						async: true,
+						success: function(data) {
+							if (data.status == "ERROR") {
+								$('#alrt').show();
+								$('#alrt').fadeOut(3000);
+							} else {
+								window.location.href = 'table.html';
+							}
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+
+</html>
