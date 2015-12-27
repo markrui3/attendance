@@ -160,7 +160,7 @@
 					mui.toast("请选择结束日期");
 					return;
 				}
-				var lastday = (new Date(endday).getTime()-new Date(startday).getTime())/(24 * 60 * 60 * 1000);
+				var lastday = (new Date(new Date(endday).Format('yyyy-MM-dd')).getTime()-new Date(new Date(startday).Format('yyyy-MM-dd')).getTime())/(24 * 60 * 60 * 1000);
 				if(parseFloat(lastday) > parseFloat(remainday)){
 					mui.toast("您的假期余额不足，请重新选择请假区间");
 					return;
