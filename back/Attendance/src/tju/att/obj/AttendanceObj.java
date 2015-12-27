@@ -6,6 +6,7 @@ public class AttendanceObj {
 	private Attendance attendance;
 	private String tempUsername;
 	private String holidayName;
+	private String phone;
 	public Attendance getAttendance() {
 		return attendance;
 	}
@@ -23,5 +24,11 @@ public class AttendanceObj {
 	}
 	public void setHolidayName(String holidayName) {
 		this.holidayName = holidayName;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 }

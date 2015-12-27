@@ -14,6 +14,13 @@ public interface SignManager {
 	public boolean add(Long userid);
 	
 	/**
+	 * 更新一个签到
+	 * @param userid
+	 * @return
+	 */
+	public boolean update(Long userid);
+	
+	/**
 	 * 获取一个签到
 	 * @return
 	 */
@@ -25,7 +32,7 @@ public interface SignManager {
 	 * @param userid
 	 * @return
 	 */
-	public List<Sign> getMonth(String dateStr,Long userid);
+	public List<Sign> getMonth(String dateStr,Long userid) throws Exception;
 	
 	/**
 	 * 获取当天的打卡记录

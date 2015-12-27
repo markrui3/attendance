@@ -109,7 +109,6 @@ public class AttendanceManagerImpl extends BaseInfo implements
 		}
 		map.put("att", attendance);
 		map.put("checkList", checkList);
-		map.put("userList", userList);
 		return map;
 	}
 

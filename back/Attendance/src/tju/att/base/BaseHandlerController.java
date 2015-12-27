@@ -1,6 +1,8 @@
 package tju.att.base;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import tju.att.domain.Attendance;
@@ -25,6 +27,7 @@ public class BaseHandlerController extends BaseController{
 		obj.setAttendance(att);
 		obj.setTempUsername(userManager.findById(att.getUserid()).getName());
 		obj.setHolidayName(holidayManager.getById(att.getHolidayid()).getHolidayname());
+		obj.setPhone(userManager.findById(att.getUserid()).getPhone());
 		return obj;
 	}
 	
@@ -54,8 +57,15 @@ public class BaseHandlerController extends BaseController{
 	}
 	protected SignObj getSignObj(Sign sign) {
 		SignObj obj = new SignObj();
-		obj.setSign(sign);
 		obj.setUsername(userManager.findById(sign.getUserid()).getName());
+		Date date = sign.getTime();
+		SimpleDateFormat sFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String dateString = sFormat.format(date);
+		obj.setTime(dateString);
+		obj.setId(sign.getId());
+		obj.setTimecome(sign.getTimecome());
+		obj.setTimeleave(sign.getTimeleave());
+		obj.setUserid(sign.getUserid());
 		return obj;
 	}
 
