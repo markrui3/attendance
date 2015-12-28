@@ -266,7 +266,9 @@
 					"fonts/mui.ttf"
 				],
 				"refer": [
-					"index.html"
+					"index.html",
+					"templates/forget_password.html",
+					"templates/reg.html"
 				]
 			},
 			"templates/forget_password.html": {
